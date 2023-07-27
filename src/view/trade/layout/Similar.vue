@@ -1,69 +1,19 @@
 <template>
   <div>
     <div class="similar-title">Similar Cryptocurrencies</div>
-    <!-- <div class="similar-card">
-      <div class="card-item" v-for="(item, index) in cardItem" :key="index">
-        <div class="icon"><img :src="item.icon" /></div>
+    <div class="similar-box">
+      <div class="card-item" v-for="(item, index) in coinMarketCapData" :key="item.id">
+        <div class="icon"><img :src="item.image" /></div>
         <div class="ctypto-type">
-          <div class="ctypto-type-name">{{ item.crypto }}</div>
-          <div class="ctypto-type-fullname">{{ item.fullname }}</div>
+          <div class="ctypto-type-name">{{ item.symbol?.toUpperCase() }}</div>
+          <div class="ctypto-type-fullname">{{ item.name }}</div>
         </div>
         <div class="price">
-          <div class="price-asset">{{ item.asset }}</div>
-          <div class="price-rate">{{ item.rate }}</div>
+          <div class="price-asset">A${{ item.current_price?.toFixed(4) }}</div>
+          <div class="price-rate">{{ item.price_change_percentage_24h?.toFixed(4) }}%</div>
         </div>
         <el-divider class="divider" />
       </div>
-    </div> -->
-    <div class="similar-box">
-      <div class="card-item">
-        <div class="icon"><img :src="crypto_icon_btc" /></div>
-        <div class="ctypto-type">
-          <div class="ctypto-type-name">BTC</div>
-          <div class="ctypto-type-fullname">Bitcoin</div>
-        </div>
-        <div class="price">
-          <div class="price-asset">A$24,087.40</div>
-          <div class="price-rate">+4.33%</div>
-        </div>
-      </div>
-      <el-divider class="divider" />
-      <div class="card-item">
-        <div class="icon"><img :src="crypto_icon_eth" /></div>
-        <div class="ctypto-type">
-          <div class="ctypto-type-name">ETH</div>
-          <div class="ctypto-type-fullname">Ethereum</div>
-        </div>
-        <div class="price">
-          <div class="price-asset">A$1,807.10</div>
-          <div class="price-rate">+6.37%</div>
-        </div>
-      </div>
-      <el-divider class="divider" />
-      <div class="card-item">
-        <div class="icon"><img :src="crypto_icon_ada" /></div>
-        <div class="ctypto-type">
-          <div class="ctypto-type-name">ADA</div>
-          <div class="ctypto-type-fullname">Cardano</div>
-        </div>
-        <div class="price">
-          <div class="price-asset">A$1.01</div>
-          <div class="price-rate">+6.37%</div>
-        </div>
-      </div>
-      <el-divider class="divider" />
-      <div class="card-item" style="padding-bottom: 60px">
-        <div class="icon"><img :src="crypto_icon_usdc" /></div>
-        <div class="ctypto-type">
-          <div class="ctypto-type-name">USDC</div>
-          <div class="ctypto-type-fullname">USD Coin</div>
-        </div>
-        <div class="price">
-          <div class="price-asset">A$1.00</div>
-          <div class="price-rate">+6.37%</div>
-        </div>
-      </div>
-      <!-- <el-divider class="divider"  style="color: #fff !important;"/> -->
     </div>
     <div class="view-more">
       <router-link to="/market-allCrypto" style="text-decoration: none;"><div class="view-more-button">View more</div></router-link>
@@ -72,41 +22,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import crypto_icon_btc from "../../../assets/home/crypto_icon_btc.png";
-import crypto_icon_eth from "../../../assets/home/crypto_icon_eth.png";
-import crypto_icon_ada from "../../../assets/home/crypto_icon_ada.png";
-import crypto_icon_usdc from "../../../assets/home/crypto_icon_usdc.png";
-const cardItem = [
-  {
-    icon: crypto_icon_btc,
-    crypto: "BTC",
-    fullname: "Bitcoin",
-    asset: "A$24,087.40",
-    rate: "+4.33%",
-  },
-  {
-    icon: crypto_icon_eth,
-    crypto: "ETH",
-    fullname: "Ethereum",
-    asset: "A$1,807.10",
-    rate: "+6.37%",
-  },
-  {
-    icon: crypto_icon_ada,
-    crypto: "ADA",
-    fullname: "Cardano",
-    asset: "A$1.01",
-    rate: "+6.37%",
-  },
-  {
-    icon: crypto_icon_usdc,
-    crypto: "USDC",
-    fullname: "USD Coin",
-    asset: "A$1.00",
-    rate: "+6.37%",
-  },
-];
+import { ref, reactive, onMounted } from "vue";
+import { queryCurrenciesType } from "../../../api/currencies";
+import { getLastCoinMarketCap } from "../../../api/market";
+
+const coinMarketCapData = ref<any>([]);
+
+onMounted(async () => {
+  refreshData(null, 6, 0);
+});
+
+async function refreshData(typeId?: number | null, pageSize: number = 10, pageNumber: number = 0, blurry?: string) {
+  try {
+    let queryCurrenciesTypeParams: QueryCurrenciesType = {
+      size: pageSize,
+      page: pageNumber
+    };
+    typeId && (queryCurrenciesTypeParams.typeId = typeId);
+    blurry && (queryCurrenciesTypeParams.blurry = blurry);
+    const coins: any = await queryCurrenciesType(queryCurrenciesTypeParams);
+    const symbols = coins.data.content.map((v: any) => v.alias && v.alias.toLowerCase());
+    const getLastCoinMarketCapParams: {symbols?: string} = {symbols: '\'\''};
+    if(symbols.length > 0) {
+      getLastCoinMarketCapParams.symbols = symbols.join(',')
+    }
+    const response = await getLastCoinMarketCap(getLastCoinMarketCapParams);
+    const resJson = JSON.parse(response.data);
+    coinMarketCapData.value = resJson;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+interface QueryCurrenciesType {
+  typeId?: number;
+  page?: number;
+  size?: number;
+  blurry?: string;
+}
 </script>
 
 <style scoped lang="scss">

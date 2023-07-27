@@ -106,7 +106,7 @@ function resetWidth() {
 
 const coinInfo = ref();
 onMounted(() => {
-  getCoinInfo(route.params.id as string);
+  getCoinInfo(currencySlug.value);
 })
 
 const getCoinInfo = async (id: string) => {
