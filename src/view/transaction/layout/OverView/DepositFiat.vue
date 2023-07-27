@@ -5,10 +5,7 @@
         <el-col :span="15" class="left-box">
           <div class="left-header">
             <div class="header-title">Deposit Fiat</div>
-            <router-link
-              to="/wallet/DepositCrypto"
-              style="text-decoration: none"
-            >
+            <router-link to="/wallet/DepositCrypto" style="text-decoration: none">
               <div class="header-toFiat">
                 <div class="toFiat">
                   Deposit Crypto
@@ -22,37 +19,19 @@
           <div class="left-center">
             <div class="center-step-box" style="height: 300px">
               <div>
-                <el-steps
-                  :active="activeStep"
-                  direction="vertical"
-                  align-center
-                >
+                <el-steps :active="activeStep" direction="vertical" align-center>
                   <el-step title="Select currency">
                     <template #description>
                       <div v-if="activeStep >= 1" class="select">
-                        <el-select
-                          v-model="selectedOption1"
-                          placeholder="Select currency"
-                          @change="handleContinue"
-                        >
-                          <el-option
-                            v-for="item in options1"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                          >
-                            <div
-                              style="
+                        <el-select :disabled="showStepThree" v-model="selectedOption1" placeholder="Select currency"
+                          @change="handleContinue">
+                          <el-option v-for="item in options1" :key="item.value" :label="item.label" :value="item.value">
+                            <div style="
                                 display: flex;
                                 align-items: center;
                                 gap: 8px;
-                              "
-                            >
-                              <el-avatar
-                                :size="26"
-                                src="asdfasdf"
-                                style="margin-right: 8px"
-                              />
+                              ">
+                              <el-avatar :size="26" :src="item.icon" style="margin-right: 8px" />
                               {{ item.label }}
                             </div>
                           </el-option>
@@ -62,24 +41,16 @@
                   </el-step>
                   <el-step title="Enter Amount" style="margin-top: 20px">
                     <template #description>
-                      <div
-                        v-if="activeStep === 2 || activeStep === 3"
-                        class="select clearfloat"
-                        style="position: relative"
-                      >
-                        <div
-                          class="enter-amount-tips"
-                          @click="dialogVisible = true"
-                        >
-                          <el-icon><Warning /></el-icon> Transaction
+                      <div v-if="activeStep === 2 || activeStep === 3" class="select clearfloat"
+                        style="position: relative">
+                        <div class="enter-amount-tips" @click="dialogVisible = true">
+                          <el-icon>
+                            <Warning />
+                          </el-icon> Transaction
                           requirements
                         </div>
-                        <el-dialog
-                          v-model="dialogVisible"
-                          class="dialog-box"
-                          width="30%"
-                          style="padding: 0 22px 36px 22px"
-                        >
+                        <el-dialog v-model="dialogVisible" class="dialog-box" width="30%"
+                          style="padding: 0 22px 36px 22px">
                           <template #header>
                             <div class="dialog-header">
                               Transaction requirements
@@ -88,40 +59,44 @@
                           <div class="divider"></div>
                           <div class="suggest">Suggested Amount</div>
 
-                          <div class="count-range">A$50-2,000,000</div>
+                          <div class="count-range">A${{ perLimitMin }}-{{ perLimitMax }}</div>
                           <div class="limit requirements">
                             <div class="limit-icon">
-                              <el-icon><Switch /></el-icon>
+                              <el-icon>
+                                <Switch />
+                              </el-icon>
                             </div>
                             <div class="limit-title">Limit per transaction</div>
-                            <div class="limit-count">A$50-1,000,000,000</div>
+                            <div class="limit-count">A${{ perLimitMin }}-{{ perLimitMax }}</div>
                           </div>
                           <div class="remain requirements clearfloat">
                             <div class="limit-icon">
-                              <el-icon><Clock /></el-icon>
+                              <el-icon>
+                                <Clock />
+                              </el-icon>
                             </div>
                             <div class="limit-title">Remaining daily limit</div>
-                            <div class="limit-count">A$2,000,000</div>
+                            <div class="limit-count">A${{ dailyLimitMax }}</div>
                             <div class="limit-sign">/A$2M</div>
                           </div>
                         </el-dialog>
-                        
+
                         <div class="step-input">
-                          <el-input
-                            v-model="coinAmount"
-                            placeholder="Please enter the amount"
-                            @change="updateCanContinue"
-                            class="input"
-                          />
+                          <el-input v-model="coinAmount" placeholder="Please enter the amount" @input="enterAmount"
+                            class="input" type="number" :disabled="showStepThree" />
                           <div v-for="item in options1" class="label">
                             {{ item.label }}
                           </div>
                         </div>
                         <!-- 输入数值判断 -->
-                        <!-- <div class="input-rule">
-                          The limit per transaction is between 50-2000000 AUD.
+                        <div class="input-rule" v-show="perLimitShow">
+                          The limit per transaction is between {{ perLimitMin }}-{{ perLimitMax }} AUD.
                           Please adjust the amount.
-                        </div> -->
+                        </div>
+                        <div class="input-rule" v-show="dailyLimitShow">
+                          The limit per day is {{ dailyLimitMax }} AUD.
+                          Please adjust the amount.
+                        </div>
                         <div class="enter-amount-rule">
                           <div class="fait-rule-item">
                             <div class="title">Transaction Method:</div>
@@ -132,10 +107,7 @@
                               <span>PayID/Osko</span>
                             </div>
                           </div>
-                          <div
-                            class="fait-rule-item"
-                            style="padding-bottom: 15px"
-                          >
+                          <div class="fait-rule-item" style="padding-bottom: 15px">
                             <div class="title">Transaction Fee:</div>
                             <div class="require">0.00 AUD</div>
                           </div>
@@ -143,37 +115,24 @@
                             <el-divider style="width: 62%"></el-divider>
                             <div class="receive">You Receive:</div>
                             <div class="receive-count">
-                              <span>0.00</span> AUD
+                              <span>{{ receiveAmount }}</span> AUD
                             </div>
                           </div>
                         </div>
-                        <el-button
-                          v-show="showContinueBtn"
-                          class="continue-btn"
-                          type="primary"
-                          :disabled="!canContinue"
-                          @click="handleContinue"
-                        >
+                        <el-button v-show="showContinueBtn" class="continue-btn" type="primary" :disabled="!canContinue"
+                          @click="handleContinue">
                           Continue
                         </el-button>
                       </div>
-                      <el-dialog
-                        v-model="dialogContinue"
-                        class="dialog-box"
-                        width="30%"
-                        style="padding: 0 22px 36px 22px"
-                      >
+                      <el-dialog v-model="dialogContinue" class="dialog-box" width="30%"
+                        style="padding: 0 22px 36px 22px">
                         <template #header>
                           <div class="dialog-header-require">
                             Transaction requirements
                           </div>
                         </template>
                         <div class="divider-require"></div>
-                        <div
-                          class="require-list"
-                          v-for="(item, index) in requireList"
-                          :key="index"
-                        >
+                        <div class="require-list" v-for="(item, index) in requireList" :key="index">
                           <div class="list-img">
                             <img class="image" :src="item.img" />
                           </div>
@@ -182,35 +141,23 @@
                           </div>
                         </div>
                         <template #footer>
-                          <el-button @click="closeDialog" class="know-btn"
-                            >OK</el-button
-                          >
+                          <el-button @click="closeDialog" class="know-btn">OK</el-button>
                         </template>
                       </el-dialog>
                     </template>
                   </el-step>
-                  <el-step
-                    v-if="showStepThree"
-                    title="Transfer Money to Proceed With the Order"
-                  >
+                  <el-step v-if="showStepThree" title="Transfer Money to Proceed With the Order">
                     <template #description>
-                      <div
-                        v-if="activeStep === 3 && showStepThree"
-                        class="deposit-details clearfloat"
-                      >
+                      <div v-if="activeStep === 3 && showStepThree" class="deposit-details clearfloat">
                         <div class="detail-box clearfloat">
                           <div class="detail-box-tips">
                             Please use the PayID detail below to make the
                             transfer and
-                            <span
-                              >Select the email option, and NOT organisation
-                              ID</span
-                            >
+                            <span>Select the email option, and NOT organisation
+                              ID</span>
                             when depositing from online banking or mobile app.
                             How to deposit AUD via PayID/Osko?
-                            <span style="text-decoration: underline"
-                              >Click Here</span
-                            >
+                            <span style="text-decoration: underline">Click Here</span>
                           </div>
 
                           <div class="detail-card">
@@ -230,7 +177,9 @@
                             <div class="indo-detail">
                               <div class="title">user2022@au.coinbyte.com</div>
                               <div class="copy">
-                                <el-icon><CopyDocument /></el-icon> Copy
+                                <el-icon>
+                                  <CopyDocument />
+                                </el-icon> Copy
                               </div>
                             </div>
                           </div>
@@ -247,13 +196,17 @@
           <div class="tips">
             <div class="tips-question">
               <div class="question-title">
-                <el-icon><Upload /></el-icon>
+                <el-icon>
+                  <Upload />
+                </el-icon>
               </div>
               <div class="question-content content">Appeal</div>
             </div>
             <div class="tips-faq">
               <div class="faq-title">
-                <el-icon><Opportunity /></el-icon> Notice
+                <el-icon>
+                  <Opportunity />
+                </el-icon> Notice
               </div>
               <el-divider />
               <div class="faq-content content">
@@ -284,44 +237,17 @@
           </div>
         </el-col>
       </el-row>
-      <div
-        class="deposit-details clearfloat"
-        v-if="activeStep === 3 && showStepThree"
-      >
+      <div class="deposit-details clearfloat" v-if="activeStep === 3 && showStepThree">
         <div class="recent-deposit clearfloat">
           <div class="table-name">Recent Deposits</div>
           <div class="not-arrive">Hasn't arrived?</div>
           <Table :sourceData="tableData">
             <template v-slot:columns>
-              <el-table-column
-                prop="time"
-                :label="t('messages.wallet.fiat_Time')"
-                width="210"
-              />
-              <el-table-column
-                prop="coin"
-                :label="t('messages.wallet.fiat_Coin')"
-                width="210"
-              />
-              <el-table-column
-                prop="amount"
-                :label="t('messages.wallet.fiat_Amount')"
-                width="240"
-              />
-              <el-table-column
-                :label="t('messages.wallet.fiat_Status')"
-                width="230"
-              >
-                <template #default="scope">
-                  <div
-                    v-if="scope.row.status === 'Successful'"
-                    style="color: #01c19a"
-                  >
-                    Successful
-                  </div>
-                  <div v-else-if="scope.row.status === 'Faild'">Faild</div>
-                </template>
-              </el-table-column>
+              <el-table-column prop="createTime" :label="t('messages.wallet.fiat_Time')" width="210" />
+              <el-table-column prop="creditDetails.currency.alphabeticCode" :label="t('messages.wallet.fiat_Coin')"
+                width="210" />
+              <el-table-column prop="creditDetails.amount" :label="t('messages.wallet.fiat_Amount')" width="240" />
+              <el-table-column prop="status" :label="t('messages.wallet.fiat_Status')" width="230"></el-table-column>
               <el-table-column :label="t('messages.wallet.fiat_Information')">
                 <template #default="scope">
                   <template v-if="!isFoldArr.includes(scope.row.key)">
@@ -341,26 +267,23 @@
                     </div>
                     <div class="info">
                       <p>Fee:</p>
-                      <p>{{ scope.row.fee }}</p>
+                      <p>{{ scope.row.creditDetails?.commission }}</p>
                     </div>
                     <div class="info">
                       <p>Order ID:</p>
-                      <p>{{ scope.row.order_ID }}</p>
+                      <p>{{ scope.row.transactionId }}</p>
                     </div>
                   </template>
                 </template>
               </el-table-column>
               <el-table-column label="">
                 <template #default="scope">
-                  <el-button
-                    type="text"
-                    :class="{
-                      icon_button: true,
-                      isRotate: isFoldArr.includes(scope.row.key),
-                    }"
-                    @click="getKey(scope.row.key)"
-                    ><el-icon style="color: #9b9b9b"><CaretBottom /></el-icon
-                  ></el-button>
+                  <el-button type="text" :class="{
+                    icon_button: true,
+                    isRotate: isFoldArr.includes(scope.row.key),
+                  }" @click="getKey(scope.row.key)"><el-icon style="color: #9b9b9b">
+                      <CaretBottom />
+                    </el-icon></el-button>
                 </template>
               </el-table-column>
             </template>
@@ -386,14 +309,15 @@ import {
   Clock,
   CaretBottom,
 } from "@element-plus/icons-vue";
-import GetButton from "../../../../components/GetButton.vue";
 import { useWindowSize } from "../../../../hooks/useWindowSize";
-import login_qrcode from "../../../../assets/home/download_qrcode.png";
 import crypto_icon_usdt from "../../../../assets/home/crypto_icon_usdt.png";
+import crypto_icon_usdc from "../../../../assets/home/crypto_icon_usdc.png";
 import Table from "../component/Table.vue";
 import { useI18n } from "vue-i18n";
 import { ElMessageBox } from "element-plus";
 import requireOne from "../../../../assets/home/part05_icon06.png";
+import { Transaction } from "../../../../models/transactions";
+import { getDepositTransactions } from "../../../../api/deposit";
 
 const dialogVisible = ref(false);
 const dialogContinue = ref(false);
@@ -401,26 +325,48 @@ const dialogContinue = ref(false);
 const { t } = useI18n();
 const noFound = ref(false);
 const coinAmount = ref("");
+const receiveAmount = ref("");
+const perLimitMin = 50
+const perLimitMax = 100000
+const perLimitShow = ref(false)
+const dailyLimitMax = 2000000
+const dailyLimitShow = ref(false)
 const windowWidth = useWindowSize().width;
 const activeStep = ref(1);
 const selectedOption1 = ref("");
-const selectedOption2 = ref("");
 const canContinue = ref(false);
+const coinAmountDisabled = computed(() => !showStepThree)
 let options1 = [
-  { value: "option1", label: "AUD" },
-  { value: "option2", label: "NZD" },
-];
-let options2 = [
-  { value: "optionA", label: "Polygon" },
-  { value: "optionB", label: "Solana" },
-  { value: "optionC", label: "Tezos" },
-  { value: "optionD", label: "Tron(TRC20)" },
+  { value: "AUD", label: "AUD", icon: crypto_icon_usdc }
 ];
 
 const showStepThree = ref(false);
 const showContinueBtn = ref(true);
 
-function handleContinue() {
+const enterAmount = () => {
+  receiveAmount.value = coinAmount.value
+  varify()
+}
+
+const varify = () => {
+  if (Number(receiveAmount.value) < perLimitMin || Number(receiveAmount.value) > perLimitMax) {
+    perLimitShow.value = true
+    canContinue.value = !perLimitShow.value
+  } else {
+    perLimitShow.value = false
+    canContinue.value = !perLimitShow.value
+  }
+
+  if (Number(receiveAmount.value) > dailyLimitMax) {
+    dailyLimitShow.value = true
+    canContinue.value = !dailyLimitShow.value
+  } else {
+    dailyLimitShow.value = false
+    canContinue.value = !dailyLimitShow.value
+  }
+}
+
+async function handleContinue() {
   if (activeStep.value === 1 && selectedOption1.value !== "") {
     activeStep.value = 2;
     options1 = options1.filter((o) => o.value === selectedOption1.value);
@@ -431,10 +377,12 @@ function handleContinue() {
     showStepThree.value = true;
     showContinueBtn.value = false; // 隐藏继续按钮
     dialogContinue.value = true;
+    // Recent Deposits
+    const depositTransactions = await getDepositTransactions(10, 0, "desc", "createTime", "deposit", null, null)
+    if (depositTransactions.status === 200) {
+      tableData.value = depositTransactions.data.data
+    }
   }
-}
-function updateCanContinue() {
-  canContinue.value = selectedOption2.value !== null;
 }
 function closeDialog() {
   dialogContinue.value = false;
@@ -464,51 +412,7 @@ const requireList = [
     info2: "Subsequent transfers are instant.",
   },
 ];
-const tableData = ref([
-  {
-    time: "2023-04-20 20:22",
-    coin: "USDT",
-    icon: "crypto_icon_usdt",
-    amount: "33399.567 USDT",
-    status: "Successful",
-    payment_method: "PayID/Osko",
-    indicated_amount: "3800.00",
-    TxID: "TXRLV…aAjr7",
-    order_ID: "PAC23212232112121211",
-    key: "1",
-    network: "Tron(TRC20)",
-    address: "Cf9044…104a5f",
-    wallet: "Trading Wallet",
-  },
-  {
-    time: "2023-04-20 20:22",
-    coin: "USDT",
-    amount: "33399.567 USDT",
-    status: "Successful",
-    payment_method: "PayID/Osko",
-    indicated_amount: "3800.00",
-    TxID: "TXRLV…aAjr7",
-    order_ID: "PAC23212232112121211",
-    key: "2",
-    network: "Tron(TRC20)",
-    address: "Cf9044…104a5f",
-    wallet: "Trading Wallet",
-  },
-  {
-    time: "2023-04-20 20:22",
-    coin: "USDT",
-    amount: "33399.567 USDT",
-    status: "Successful",
-    payment_method: "PayID/Osko",
-    indicated_amount: "3800.00",
-    TxID: "TXRLV…aAjr7",
-    order_ID: "PAC23212232112121211",
-    key: "3",
-    network: "Tron(TRC20)",
-    address: "Cf9044…104a5f",
-    wallet: "Trading Wallet",
-  },
-]);
+const tableData = ref<Transaction[]>([]);
 const isFoldArr = ref<string[]>([]);
 const getKey = (key: string) => {
   let index = isFoldArr.value.indexOf(key);
@@ -527,10 +431,13 @@ $fontSizeDefPro: 20px;
 $fontSizeDef: 16px;
 $fontSizeMinPro: 14px;
 $fontSizeMin: 12px;
+
 .deposit-crypto {
   margin-top: 20px;
   padding-bottom: 100px;
+
   :deep() {
+
     .el-button.is-disabled,
     .el-button.is-disabled:focus,
     .el-button.is-disabled:hover {
@@ -539,42 +446,52 @@ $fontSizeMin: 12px;
       border: none;
       font-size: 20px;
     }
+
     .el-button--primary {
       --el-button-hover-bg-color: #01c19a;
     }
+
     .el-step.is-vertical .el-step__title {
       font-size: 20px;
     }
+
     .el-step__title.is-finish {
       color: #000;
       font-weight: 500;
     }
+
     .el-step__title.is-process {
       font-weight: 500;
       color: #9b9b9b;
     }
+
     .el-dialog__body {
       padding: 0;
     }
   }
 }
+
 .left-box {
   padding-left: 60px !important;
+
   .left-header {
     display: flex;
     justify-content: space-between;
+
     .header-title {
       font-size: $fontSizeMed;
       color: #000;
       line-height: 32px;
       font-weight: bold;
     }
+
     .header-toFiat {
       width: 128px;
       height: 36px;
       background-color: #f7f7f7;
       color: #01c19a;
       border-radius: 8px;
+
       .toFiat {
         cursor: pointer;
         height: 36px;
@@ -585,35 +502,38 @@ $fontSizeMin: 12px;
       }
     }
   }
+
   .left-center {
     .center-step-box {
       margin-top: 23px;
+
       :deep() {
         .el-step__line {
           border-left: 2px dashed var(--el-text-color-placeholder);
-          border-image: repeating-linear-gradient(
-              359deg,
+          border-image: repeating-linear-gradient(359deg,
               var(--el-text-color-placeholder) 0,
               var(--el-text-color-placeholder) 5px,
               transparent 0,
-              transparent 10px
-            )
-            30 12;
+              transparent 10px) 30 12;
           background-color: transparent;
+
           .el-step__line-inner {
             display: none;
           }
         }
       }
+
       .select {
         position: relative;
         margin-top: 20px;
+
         :deep() {
           .el-select .el-input__wrapper {
             width: 442px;
             height: 48px;
           }
         }
+
         .enter-amount-tips {
           cursor: pointer;
           float: left;
@@ -622,6 +542,7 @@ $fontSizeMin: 12px;
           font-size: 14px;
           color: #878787;
         }
+
         .dialog-box {
           .dialog-header {
             font-weight: 500;
@@ -629,11 +550,13 @@ $fontSizeMin: 12px;
             color: #000000;
             line-height: 25px;
           }
+
           .divider {
             height: 1px;
             width: 100%;
             background-color: #dfdfe5;
           }
+
           .suggest {
             text-align: center;
             font-size: 14px;
@@ -641,6 +564,7 @@ $fontSizeMin: 12px;
             line-height: 16px;
             margin-top: 24px;
           }
+
           .count-range {
             font-size: 20px;
             text-align: center;
@@ -648,6 +572,7 @@ $fontSizeMin: 12px;
             margin-top: 12px;
             line-height: 25px;
           }
+
           .requirements {
             background: #f7f7f7;
             border-radius: 8px;
@@ -655,16 +580,19 @@ $fontSizeMin: 12px;
             margin: 23px auto;
             align-items: center;
             padding: 13px 14px 14px 14px;
+
             .limit-icon {
               float: left;
               margin-top: 16px;
             }
+
             .limit-title {
               font-size: 12px;
               color: #878787;
               line-height: 15px;
               margin-left: 30px;
             }
+
             .limit-count {
               font-size: 16px;
               color: #000000;
@@ -672,6 +600,7 @@ $fontSizeMin: 12px;
               margin-left: 30px;
               margin-top: 10px;
             }
+
             .limit-sign {
               float: right;
               font-size: 12px;
@@ -680,8 +609,10 @@ $fontSizeMin: 12px;
             }
           }
         }
+
         .enter-amount-rule {
           margin-top: 20px;
+
           .fait-rule-item {
             width: 442px;
             display: flex;
@@ -689,10 +620,12 @@ $fontSizeMin: 12px;
             font-size: 14px;
             color: #878787;
             margin-top: 15px;
+
             span {
               color: #000000;
               font-weight: 500;
             }
+
             .require {
               .pay-img {
                 width: 20px;
@@ -701,6 +634,7 @@ $fontSizeMin: 12px;
                 float: left;
                 margin-top: -5px;
                 margin-right: 4px;
+
                 img {
                   width: 100%;
                   height: 100%;
@@ -709,16 +643,19 @@ $fontSizeMin: 12px;
               }
             }
           }
+
           .receive-box {
             .receive {
               font-size: 16px;
               color: #000000;
               line-height: 18px;
             }
+
             .receive-count {
               font-size: 14px;
               color: #000000;
               margin-top: 12px;
+
               span {
                 font-size: 28px;
                 color: #000000;
@@ -728,6 +665,7 @@ $fontSizeMin: 12px;
             }
           }
         }
+
         .continue-btn {
           width: 442px;
           height: 60px;
@@ -735,7 +673,9 @@ $fontSizeMin: 12px;
           font-size: 20px;
         }
       }
+
       .deposit-details {
+
         // position: relative;
         .detail-box {
           .detail-box-tips {
@@ -747,6 +687,7 @@ $fontSizeMin: 12px;
             font-size: 12px;
             color: #878787;
             line-height: 16px;
+
             span {
               color: #01c19a;
               text-decoration-line: underline;
@@ -760,23 +701,28 @@ $fontSizeMin: 12px;
             background: #f7f7f7;
             border-radius: 4px;
             padding: 10px 17px;
+
             .card-item {
               display: flex;
               justify-content: space-between;
               padding-bottom: 14px;
+
               .item-title {
                 font-size: 14px;
                 color: #000000;
                 line-height: 17px;
                 display: flex;
                 align-items: center;
+
                 span {
                   padding-left: 12px;
                   font-weight: 600;
                 }
+
                 .item-title-img {
                   width: 26px;
                   height: 26px;
+
                   img {
                     width: 100%;
                     height: 100%;
@@ -784,31 +730,38 @@ $fontSizeMin: 12px;
                   }
                 }
               }
+
               .item-count {
                 font-size: 22px;
                 color: #000000;
                 line-height: 27px;
               }
             }
+
             .card-divider {
               width: 100%;
               height: 1px;
               background-color: #ebebeb;
             }
+
             .card-info {
               padding-top: 13px;
+
               .title {
                 font-size: 12px;
                 color: #878787;
               }
             }
+
             .indo-detail {
               padding: 13px 15px 17px 0px;
+
               .title {
                 font-size: 14px;
                 color: #000000;
                 float: left;
               }
+
               .copy {
                 font-size: 12px;
                 color: #000000;
@@ -821,12 +774,14 @@ $fontSizeMin: 12px;
     }
   }
 }
+
 .recent-deposit {
   font-size: 26px;
   color: #000000;
   line-height: 32px;
   font-weight: 500;
   margin-top: 400px;
+
   .not-arrive {
     float: right;
     font-size: 14px;
@@ -835,12 +790,14 @@ $fontSizeMin: 12px;
     text-decoration: underline #9b9b9b;
   }
 }
+
 .right-box {
   .tips {
     .tips-question {
       .question-title {
         float: left;
       }
+
       .question-content {
         margin-left: 20px;
         font-size: 14px;
@@ -851,17 +808,20 @@ $fontSizeMin: 12px;
 
     .tips-faq {
       margin-top: 30px;
+
       .faq-title {
         font-size: 20px;
         color: #000000;
         line-height: 25px;
         font-weight: 500;
       }
+
       :deep() {
         .el-divider--horizontal {
           margin: 18px 0;
         }
       }
+
       .faq-content {
         font-size: 16px;
         color: #878787;
@@ -875,12 +835,15 @@ $fontSizeMin: 12px;
     }
   }
 }
+
 .step-input {
   position: relative;
+
   .input {
     width: 442px;
     height: 48px;
   }
+
   .label {
     position: absolute;
     left: 400px;
@@ -888,6 +851,7 @@ $fontSizeMin: 12px;
     color: #9b9b9b;
   }
 }
+
 .input-rule {
   font-size: 16px;
   color: #f35854;
@@ -895,16 +859,19 @@ $fontSizeMin: 12px;
   width: 442px;
   margin-top: 15px;
 }
+
 .dialog-header-require {
   font-size: 20px;
   color: #000000;
   line-height: 25px;
 }
+
 .divider-require {
   height: 1px;
   width: 100%;
   background-color: #dfdfe5;
 }
+
 .require-list {
   margin-top: 24px;
   padding: 5px 20px;
@@ -914,12 +881,14 @@ $fontSizeMin: 12px;
   .image {
     width: 36px;
     height: auto;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
   }
+
   .list-info {
     font-size: 14px;
     color: #878787;
@@ -929,6 +898,7 @@ $fontSizeMin: 12px;
     word-break: break-all;
   }
 }
+
 .know-btn {
   width: 100% !important;
   height: 48px !important;
