@@ -23,8 +23,8 @@
                   <el-step title="Select crypto">
                     <template #description>
                       <div v-if="activeStep >= 1" class="select">
-                        <el-select v-model="selectedOption1" filterable :filter-method="filter1"
-                          placeholder="Select or Search" @change="handleContinue">
+                        <el-select v-model="selectedOption1" placeholder="Select" @change="handleContinue"
+                          @click="initOptions1">
                           <template #prefix>
                             <img :src="firstIcon" v-show="firstIcon" style="
                               width: 20px;
@@ -34,6 +34,9 @@
                             <span style="float: left;font-weight: bold;color: rgb(52, 44, 44);">{{ selectedOption1
                             }}</span>
                           </template>
+                          <el-input v-model="searchTxt1" placeholder="Search" style="margin: 10px 20px;width: 90%;"
+                            @input="filter1" :prefix-icon="Search">
+                          </el-input>
                           <el-option v-for="item in options1" :key="item.id" :label="item.name" :value="item.slug">
                             <div style="
                                 display: flex;
@@ -193,7 +196,8 @@
           <Table :sourceData="tableData">
             <template v-slot:columns>
               <el-table-column prop="createTime" :label="t('messages.wallet.fiat_Time')" width="180" />
-              <el-table-column prop="debitDetails.currency.alphabeticCode" :label="t('messages.wallet.fiat_Asset')" width="120">
+              <el-table-column prop="debitDetails.currency.alphabeticCode" :label="t('messages.wallet.fiat_Asset')"
+                width="120">
                 <template #default="scope">
                   <!-- <img :src="crypto_icon_usdt" style="width: 21px" /> -->
                   {{ scope.row.debitDetails.currency.alphabeticCode }}
@@ -267,8 +271,19 @@
                 </el-steps>
               </div>
               <div v-if="activeStep >= 1" class="select">
-                <el-select class="select-first" v-model="selectedOption1" placeholder="Select crypto"
-                  @change="handleContinue">
+                <el-select v-model="selectedOption1" placeholder="Select" @change="handleContinue" @click="initOptions1">
+                  <template #prefix>
+                    <img :src="firstIcon" v-show="firstIcon" style="
+                              width: 20px;
+                              height: 20px;
+                              margin-right: 5px;
+                            " />
+                    <span style="float: left;font-weight: bold;color: rgb(52, 44, 44);">{{ selectedOption1
+                    }}</span>
+                  </template>
+                  <el-input v-model="searchTxt1" placeholder="Search" style="margin: 10px 20px;width: 90%;"
+                    @input="filter1" :prefix-icon="Search">
+                  </el-input>
                   <el-option v-for="item in options1" :key="item.slug" :label="item.name" :value="item.name"></el-option>
                 </el-select>
               </div>
@@ -383,7 +398,8 @@
           <Table :sourceData="tableData">
             <template v-slot:columns>
               <el-table-column prop="createTime" :label="t('messages.wallet.fiat_Time')" width="180" />
-              <el-table-column prop="debitDetails.currency.alphabeticCode" :label="t('messages.wallet.fiat_Asset')" width="120">
+              <el-table-column prop="debitDetails.currency.alphabeticCode" :label="t('messages.wallet.fiat_Asset')"
+                width="120">
                 <template #default="scope">
                   <!-- <img :src="crypto_icon_usdt" style="width: 21px" /> -->
                   {{ scope.row.debitDetails.currency.alphabeticCode }}
@@ -435,13 +451,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onUnmounted, onMounted, computed, watch } from "vue";
+import { ref, reactive, onUnmounted, onMounted, computed } from "vue";
 import type { Ref } from "vue";
 import { Link, Right, CopyDocument } from "@element-plus/icons-vue";
-import GetButton from "../../../../components/GetButton.vue";
+import { Search } from '@element-plus/icons-vue'
 import { useWindowSize } from "../../../../hooks/useWindowSize";
 import login_qrcode from "../../../../assets/home/download_qrcode.png";
-import crypto_icon_usdt from "../../../../assets/home/crypto_icon_usdt.png";
 import Table from "../component/Table.vue";
 import { useI18n } from "vue-i18n";
 import { CurrencyType } from "../../../../models/currencyType";
@@ -471,6 +486,7 @@ let options2 = ref<DepositMethodObject[]>([])
 const showStepThree = ref(false);
 const showContinueBtn = ref(true);
 const firstIcon = ref("")
+const searchTxt1 = ref("")
 const minimumDeposit = ref("0.0000")
 const expectedArrival = ref("")
 const tableData = ref<Transaction[]>([]);
@@ -526,7 +542,7 @@ async function handleContinue() {
     }
     // Recent Deposits
     const depositTransactions = await getDepositTransactions(10, 0, "desc", "createTime", "deposit", null, null)
-    if(depositTransactions.status === 200){
+    if (depositTransactions.status === 200) {
       tableData.value = depositTransactions.data.data
     }
   }
@@ -553,11 +569,12 @@ const selectOption = (option: string) => {
   handleContinue();
 };
 
-const filter1 = (val: string) => {
-  if (val) {
+const filter1 = () => {
+  debugger
+  if (searchTxt1.value) {
     //val存在筛选数组
     options1.value = option1.value.filter((i) => {
-      if (i.slug.indexOf(val.toUpperCase())) {
+      if (i.slug.indexOf(searchTxt1.value.toUpperCase())) {
         return false
       }
       return true
@@ -566,6 +583,11 @@ const filter1 = (val: string) => {
     //val不存在还原数组
     options1.value = option1.value
   }
+}
+
+const initOptions1 = () => {
+  searchTxt1.value = ""
+  options1.value = option1.value
 }
 
 function updateCanContinue() {
