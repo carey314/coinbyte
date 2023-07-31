@@ -6,5 +6,7 @@ export interface AssetsData {
     accountNumber : string;
     accountId : string;
     group : string;
-    minorUnit : number
+    minorUnit : number;
+    numericCode: number;
+    icon: string;
   }

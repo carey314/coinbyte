@@ -314,7 +314,6 @@ import crypto_icon_usdt from "../../../../assets/home/crypto_icon_usdt.png";
 import crypto_icon_usdc from "../../../../assets/home/crypto_icon_usdc.png";
 import Table from "../component/Table.vue";
 import { useI18n } from "vue-i18n";
-import { ElMessageBox } from "element-plus";
 import requireOne from "../../../../assets/home/part05_icon06.png";
 import { Transaction } from "../../../../models/transactions";
 import { getDepositTransactions } from "../../../../api/deposit";
@@ -378,7 +377,7 @@ async function handleContinue() {
     showContinueBtn.value = false; // 隐藏继续按钮
     dialogContinue.value = true;
     // Recent Deposits
-    const depositTransactions = await getDepositTransactions(10, 0, "desc", "createTime", "deposit", null, null)
+    const depositTransactions = await getDepositTransactions(5, 0, "desc", "createTime", "deposit", null, null)
     if (depositTransactions.status === 200) {
       tableData.value = depositTransactions.data.data
     }

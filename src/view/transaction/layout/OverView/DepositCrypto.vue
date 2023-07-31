@@ -541,7 +541,7 @@ async function handleContinue() {
       expectedArrival.value = selectedDepositMethod.libraryTimeToFund
     }
     // Recent Deposits
-    const depositTransactions = await getDepositTransactions(10, 0, "desc", "createTime", "deposit", null, null)
+    const depositTransactions = await getDepositTransactions(5, 0, "desc", "createTime", "deposit", null, null)
     if (depositTransactions.status === 200) {
       tableData.value = depositTransactions.data.data
     }

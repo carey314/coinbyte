@@ -42,6 +42,17 @@ function confirmAWithdrawal (data : any) {
     return http.post("/v2/my/withdrawals/wizard",data);
 }
 
+function getWhiteListAddress(params: any){
+    return http.get("/v2/my/withdrawals/policies", params)
+}
+
+function getWhiteListAddressUUID(){
+    return http.get("/v2/my/withdrawals/policies/wizard")
+}
+
+function addWithdrawalAddress(params: any){
+    return http.post("/v2/my/withdrawals/policies", params)
+}
 
 export {
     getWithDrawalTemplates,
@@ -52,5 +63,8 @@ export {
     getWithDrawalCurrenciesAdd,
     getInitWizardWithdrawingFunds,
     makeWithdrawal,
-    confirmAWithdrawal
+    confirmAWithdrawal,
+    getWhiteListAddress,
+    getWhiteListAddressUUID,
+    addWithdrawalAddress
 }

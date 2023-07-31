@@ -38,9 +38,9 @@
                         >
                           <el-option
                             v-for="item in options1"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
+                            :key="item.alphabeticCode"
+                            :label="item.alphabeticCode"
+                            :value="item.alphabeticCode"
                           >
                             <div
                               style="
@@ -54,7 +54,7 @@
                                 src="asdfasdf"
                                 style="margin-right: 8px"
                               />
-                              {{ item.label }}
+                              {{ item.alphabeticCode }}
                             </div>
                           </el-option>
                         </el-select>
@@ -115,7 +115,7 @@
                             class="input"
                           />
                           <div v-for="item in options1" class="label">
-                            {{ item.label }}
+                            {{ item.alphabeticCode }}
                           </div>
                         </div>
 
@@ -604,49 +604,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onUnmounted, onMounted, computed, watch } from "vue";
-import type { Ref } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import {
-  Link,
   Right,
-  CopyDocument,
-  Upload,
-  Opportunity,
   Warning,
   Switch,
   Clock,
   CaretBottom,
 } from "@element-plus/icons-vue";
-import GetButton from "../../../../components/GetButton.vue";
 import { useWindowSize } from "../../../../hooks/useWindowSize";
 import success_img from "../../../..//assets/deposit/Successful.png";
 import crypto_icon_usdt from "../../../../assets/home/crypto_icon_usdt.png";
 import Table from "../component/Table.vue";
 import { useI18n } from "vue-i18n";
-import { ElMessageBox } from "element-plus";
+import { useUserInfoStore } from "../../../../store/user";
+import { getMyAssets } from "../../../../api/wallet";
+import type { AssetsData } from "../../../../models/assets";
+import type { CurrencyType } from "../../../../models/currencyType";
+import { queryCurrenciesType } from "../../../../api/currencies";
+
 const inputValue = ref("");
-const buttonText = "按钮文字";
-function handleClick() {
-  // 处理按钮点击事件
-  console.log("按钮被点击");
-}
 const dialogVisible = ref(false);
 const editVisible = ref(false);
 const continueVisible = ref(false);
 const innerVisible = ref(false);
 
 const { t } = useI18n();
-const noFound = ref(false);
 
 const windowWidth = useWindowSize().width;
 const activeStep = ref(1);
 const selectedOption1 = ref("");
 const selectedOption2 = ref("");
 const canContinue = ref(false);
-let options1 = [
-  { value: "option1", label: "AUD" },
-  { value: "option2", label: "NZD" },
-];
+let options1 = ref<AssetsData[]>([]);
 let options2 = [
   { value: "optionA", label: "Polygon" },
   { value: "optionB", label: "Solana" },
@@ -658,6 +648,42 @@ const faqActiveName = ref("1");
 const showStepThree = ref(false);
 const showContinueBtn = ref(true);
 const withdrawStatus = ref(false);
+
+const userInfoStore = useUserInfoStore();
+const assetsData = ref<AssetsData[]>([]);
+const currenciesTypes = ref<CurrencyType[]>([])
+onMounted(async ()=>{
+  //
+  const res = await queryCurrenciesType()
+  if (res.status == 200) {
+    if (res.data.content) {
+      currenciesTypes.value = res.data.content
+    }
+  }
+  //
+  if(userInfoStore.token){
+    getMyAssets().then((res) => {
+      if (res.data.data) {
+        assetsData.value = res.data.data.map((v: any) => {
+          return {
+            currency: v.currency.name,
+            balance: v.statement.availableBalance,
+            alphabeticCode: v.currency.alphabeticCode,
+            caption: v.caption,
+            accountNumber: v.accountNumber,
+            accountId: v.accountId,
+            group: v.group.name,
+            minorUnit: v.currency.minorUnit,
+          };
+        });
+        console.log(assetsData.value);
+        // 
+        options1.value = assetsData.value.filter((e)=> e.group === "Fiat" && Number(e.balance) > 0)
+      }
+    });
+  }
+})
+
 function handleSubmit() {
   withdrawStatus.value = true;
   innerVisible.value = false;
@@ -665,7 +691,7 @@ function handleSubmit() {
 function handleContinue() {
   if (activeStep.value === 1 && selectedOption1.value !== "") {
     activeStep.value = 2;
-    options1 = options1.filter((o) => o.value === selectedOption1.value);
+    // options1 = options1.filter((o) => o.value === selectedOption1.value);
   } else if (activeStep.value === 2 && canContinue.value) {
     activeStep.value = 3;
     showStepThree.value = true;
