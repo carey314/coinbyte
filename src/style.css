@@ -84,8 +84,9 @@ button:focus-visible {
 /* CSS Document */
 
 /* CSS reset with box-sizing fix */
+
 html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+h1, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
@@ -104,6 +105,15 @@ time, mark, audio, video {
  font-family: HarmonyOS Sans,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
  font: inherit;
  vertical-align: baseline;
+}
+.about-box-content-inner h2{
+  font-size: 32px;
+  color: #010000;
+  line-height: 39px;
+  font-weight: 600; 
+}
+.about-box-content-inner p{
+ margin-top: 20px;
 }
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {

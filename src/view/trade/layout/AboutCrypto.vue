@@ -1,21 +1,32 @@
 <template>
   <div class="about-box">
-    <div class="about-box-content" :style="{height: viewMore ? 'auto' : '509px'}">
-      <div class="about-box-content-inner" v-html="coinInfo ? coinInfo.infoTxt : copy"></div>
+    <div
+      class="about-box-content"
+      :style="{ height: viewMore ? 'auto' : '509px' }"
+    >
+      <div
+        class="about-box-content-inner"
+        v-html="coinInfo ? coinInfo.infoTxt : copy"
+      ></div>
     </div>
-    <div v-if="!viewMore" class="view-more">
+    <div  class="view-more">
       <div class="view-more-mask"></div>
       <div class="view-more-button" @click="toggleViewMore">View more</div>
     </div>
   </div>
+
   <div class="resource-box">
-    <div class="resource-title"><span>{{ coinInfo?.name || currencyName }}</span> Resources</div>
+    <div class="resource-title">
+      <span>{{ coinInfo?.name || currencyName }}</span> Resources
+    </div>
     <div class="resource-way">
       <div class="way-website clearfloat">
         <div class="website-icon">
           <img :src="icon_official" />
         </div>
-        <div class="website-name">Official {{ coinInfo?.name || currencyName }} Website &gt;</div>
+        <div class="website-name">
+          Official {{ coinInfo?.name || currencyName }} Website &gt;
+        </div>
       </div>
       <div class="way-paper clearfloat">
         <div class="paper-icon">
@@ -28,7 +39,8 @@
   <div class="question-box">
     <div class="question-part">
       <div class="question-title">
-        People Also Ask: Other Questions About <span>{{ coinInfo?.name || currencyName }}</span>
+        People Also Ask: Other Questions About
+        <span>{{ coinInfo?.name || currencyName }}</span>
       </div>
       <div class="question-part-collapse">
         <!-- <el-collapse v-model="activeNames" @change="handleChange">
@@ -69,8 +81,16 @@
             <div class="collapse-content">How Can I Store My Bitcoin?</div>
           </el-collapse-item>
         </el-collapse> -->
-        <el-collapse v-if="decodeData(coinInfo?.questionJson).length > 0" v-model="activeNames">
-          <el-collapse-item v-for="(item, index) in decodeData(coinInfo?.questionJson)" :key="index" :title="item.que" :name="item.que + index">
+        <el-collapse
+          v-if="decodeData(coinInfo?.questionJson).length > 0"
+          v-model="activeNames"
+        >
+          <el-collapse-item
+            v-for="(item, index) in decodeData(coinInfo?.questionJson)"
+            :key="index"
+            :title="item.que"
+            :name="item.que + index"
+          >
             <div class="collapse-content" v-html="item.ans" />
           </el-collapse-item>
         </el-collapse>
@@ -87,14 +107,12 @@ import icon_whitepaperl from "../../../assets/home/icon_whitepaperl.svg";
 import { storeToRefs } from "pinia";
 import { tradeStore } from "../../../store/trade";
 
-const useTradeStore = tradeStore()
-const {currencySlug, currencyName, currencyIcon} = storeToRefs(useTradeStore)
+const useTradeStore = tradeStore();
+const { currencySlug, currencyName, currencyIcon } = storeToRefs(useTradeStore);
 
-const props = defineProps<
-  {
-    coinInfo: any;
-  }
->();
+const props = defineProps<{
+  coinInfo: any;
+}>();
 
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {
@@ -151,25 +169,35 @@ const copy = `
 const viewMore = ref(false);
 const toggleViewMore = () => {
   viewMore.value = !viewMore.value;
-}
+};
+// const myDiv = ref(null); // 创建 ref 引用
+// const state = reactive({
+//   divHeight: "500px", // 初始化高度
+// });
 
+// // 切换高度的方法
+// const toggleHeight = () => {
+//   state.divHeight = state.divHeight === "500px" ? "100%" : "500px";
+// };
 onMounted(() => {
-  const content = document.querySelector('.about-box-content-inner') as HTMLElement;
-  if(content) {
-    console.log(content.offsetHeight <= 509)
-    if(content.offsetHeight <= 509) {
+  const content = document.querySelector(
+    ".about-box-content-inner"
+  ) as HTMLElement;
+  if (content) {
+    console.log(content.offsetHeight <= 509);
+    if (content.offsetHeight <= 509) {
       viewMore.value = true;
     }
   }
-})
+});
 
 const decodeData = (data: any) => {
   try {
     return JSON.parse(data);
-  } catch(e) {
+  } catch (e) {
     return [];
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -183,6 +211,15 @@ $fontSizeDef: 16px;
 $fontSizeMinPro: 14px;
 $fontSizeMin: 12px;
 
+.about-box-content-inner h2 {
+  font-size: 32px;
+  color: #010000;
+  line-height: 39px;
+  font-weight: 600;
+}
+.about-box-content-inner p {
+  margin-top: 20px;
+}
 .question-part {
   background-color: #fff;
   margin-top: 93px;
@@ -239,69 +276,71 @@ $fontSizeMin: 12px;
   }
   :deep() {
     .about-crypto {
-    font-size: 32px;
-    color: #010000;
-    line-height: 39px; 
-    font-weight: 600;
-    span {
-      color: #01c19a;
+      font-size: 32px;
+      color: #010000;
+      line-height: 39px;
+      font-weight: 600;
+      span {
+        color: #01c19a;
+      }
     }
-  }
-  .about-introduce {
-    margin-top: 30px;
-    color: #060606;
-    line-height: 18px;
-  }
-  .upgrades {
-    color: #060606;
-    line-height: 18px;
-    font-weight: 600;
-    margin-top: 19px;
-  }
-  .gradient-text {
-    line-height: 18px;
-    margin-top: 19px;
-    background-image: linear-gradient(to bottom, #060606 -60%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .view-more {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    border-radius: 3px;
-    margin: auto;
-    position: relative;
-    &-mask {
-      background-image: linear-gradient(to bottom, 
-      rgba(255,255,255, .3),
-      rgba(255,255,255, 1)
-      );
-      // background-color: red;
-      // -webkit-background-clip: text;
-      // -moz-background-clip: text;
-      // background-clip: text;
+    .about-introduce {
+      margin-top: 30px;
+      color: #060606;
+      line-height: 18px;
+    }
+    .upgrades {
+      color: #060606;
+      line-height: 18px;
+      font-weight: 600;
+      margin-top: 19px;
+    }
+    .gradient-text {
+      line-height: 18px;
+      margin-top: 19px;
+      background-image: linear-gradient(to bottom, #060606 -60%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -moz-background-clip: text;
+      background-clip: text;
       color: transparent;
-      height: 200px;
+    }
+    .view-more {
       width: 100%;
-      position: absolute;
-      top: -200px;
-      z-index: 1000;
-    }
-    .view-more-button {
-      cursor: pointer;
-      width: 133px;
-      height: 41px;
-      border: 1px solid #d7d7d7;
-      height: 41px;
-      color: #878787;
       display: flex;
-      align-items: center;
       justify-content: center;
+      border-radius: 3px;
+      margin: auto;
+      position: relative;
+      &-mask {
+        background-image: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 1)
+        );
+        // background-color: red;
+        // -webkit-background-clip: text;
+        // -moz-background-clip: text;
+        // background-clip: text;
+        color: transparent;
+        height: 200px;
+        width: 100%;
+        position: absolute;
+        top: -200px;
+        z-index: 1000;
+      }
+      .view-more-button {
+        cursor: pointer;
+        width: 133px;
+        height: 41px;
+        border: 1px solid #d7d7d7;
+        height: 41px;
+        color: #878787;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+      }
     }
-  }
   }
 }
 
@@ -348,9 +387,9 @@ $fontSizeMin: 12px;
     }
   }
 }
-.about-box{
+.about-box {
   line-height: 22px;
-  font-family: "HarmonyOS Sans",Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+  font-family: "HarmonyOS Sans", Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, SimSun, sans-serif;
 }
-
 </style>
