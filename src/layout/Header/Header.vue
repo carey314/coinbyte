@@ -117,7 +117,7 @@
                     </router-link>
                   </el-dropdown-item>
                   <el-dropdown-item class="help-dropdown-item">
-                    <router-link to="/transaction/DepositCrypto" style="display: flex; text-decoration: none">
+                    <router-link to="/wallet/DepositCrypto" style="display: flex; text-decoration: none">
                       <div class="help-box">
                         <div class="help-icon">
                           <img :src="dropdown_wallet_deposit" />
@@ -129,7 +129,7 @@
                     </router-link>
                   </el-dropdown-item>
                   <el-dropdown-item class="help-dropdown-item">
-                    <router-link to="/transaction/WithdrawCrypto" style="display: flex; text-decoration: none">
+                    <router-link to="/wallet/WithdrawCrypto" style="display: flex; text-decoration: none">
                       <div class="help-box">
                         <div class="help-icon">
                           <img :src="dropdown_wallet_withdraw" />

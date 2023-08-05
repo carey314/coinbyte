@@ -886,11 +886,13 @@ $fontSizeMin: 12px;
           .requirements {
             background: #f7f7f7;
             border-radius: 8px;
-            width: 367px;
             height: 67px;
-            margin: 23px auto;
+            margin: 23px 10px;
             align-items: center;
             padding: 13px 14px 14px 14px;
+            // @media (max-width: 1440px) {
+            //   width: 100%;
+            // }
             .limit-icon {
               float: left;
 
