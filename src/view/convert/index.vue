@@ -580,9 +580,9 @@ const handleToConvert = () => {
     if (fromObj && toObj && currentPairStable.value) {
       let exchangeData = {
         amount: numberStable.value as string,
-        destinationAccountId: parseInt(toObj.accountId),
+        destinationAccountId: toObj.accountId,
         quoteId: currentPairStable.value.quoteId as string,
-        sourceAccountId: parseInt(fromObj.accountId),
+        sourceAccountId: fromObj.accountId,
       };
       console.log(exchangeData);
       exchangeCurrencies(exchangeData).then((res) => {

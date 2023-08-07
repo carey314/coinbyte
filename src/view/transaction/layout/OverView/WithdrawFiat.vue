@@ -41,20 +41,32 @@
                             :key="item.alphabeticCode"
                             :label="item.alphabeticCode"
                             :value="item.alphabeticCode"
+                            style="height:40px;"
                           >
                             <div
                               style="
                                 display: flex;
                                 align-items: center;
                                 gap: 8px;
+                                line-height: normal;
+                                justify-content: space-between;
                               "
                             >
-                              <el-avatar
-                                :size="26"
-                                src="asdfasdf"
-                                style="margin-right: 8px"
-                              />
-                              {{ item.alphabeticCode }}
+                              <div style="display: flex;">
+                                <el-avatar
+                                  :size="32"
+                                  src="asdfasdf"
+                                  style="margin-right: 8px;align-self: center;"
+                                />
+                                <div style="display: flex;flex-direction: column;">
+                                  <div style="font-weight: bold;">{{ item.alphabeticCode }} </div>
+                                  <div>{{ item.currency }}</div>
+                                </div>
+                              </div>
+                              <div>
+                                <div>Total Balance </div>
+                                <div style="font-weight: bold;">{{ Number(item.balance).toFixed(4) + " " + item.alphabeticCode }}</div>
+                              </div>
                             </div>
                           </el-option>
                         </el-select>

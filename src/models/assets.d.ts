@@ -4,7 +4,7 @@ export interface AssetsData {
     alphabeticCode : string;
     caption : string;
     accountNumber : string;
-    accountId : string;
+    accountId : number;
     group : string;
     minorUnit : number;
     numericCode: number;

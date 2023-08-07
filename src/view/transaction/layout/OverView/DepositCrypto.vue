@@ -112,7 +112,7 @@
                                 <div class="address-title">USDT address</div>
                                 <div class="address-code clearfloat">
                                   <div class="code">
-                                    TTXKTYFSSDWjkjdsJTWEWEWEWjosdw122223EEWwr
+                                    {{ address }}
                                   </div>
                                   <div class="copy">
                                     <el-icon>
@@ -460,10 +460,13 @@ import login_qrcode from "../../../../assets/home/download_qrcode.png";
 import Table from "../component/Table.vue";
 import { useI18n } from "vue-i18n";
 import { CurrencyType } from "../../../../models/currencyType";
+import type { AssetsData } from "../../../../models/assets";
 import { queryCurrenciesType } from "../../../../api/currencies";
-import { getDepositMethods, getDepositTransactions } from "../../../../api/deposit";
+import { getDepositMethods, getDepositTransactions, makeDeposit } from "../../../../api/deposit";
 import { DepositMethodObject } from "../../../../models/depositMethod";
 import { Transaction } from "../../../../models/transactions";
+import { useUserInfoStore } from "../../../../store/user";
+import { getMyAssets } from "../../../../api/wallet";
 const { t } = useI18n();
 const noFound = ref(false);
 
@@ -489,9 +492,35 @@ const firstIcon = ref("")
 const searchTxt1 = ref("")
 const minimumDeposit = ref("0.0000")
 const expectedArrival = ref("")
+const address = ref("")
 const tableData = ref<Transaction[]>([]);
 const depositMethods = ref<DepositMethodObject[]>([])
+const assetsData = ref<AssetsData[]>([]);
+const userInfoStore = useUserInfoStore();
 onMounted(async () => {
+  // 
+  if(userInfoStore.token){
+    getMyAssets().then((res) => {
+      console.log(res.data.data);
+      if (res.data.data) {
+        assetsData.value = res.data.data.map((v: any) => {
+          return {
+            currency: v.currency.name,
+            numericCode: v.currency.numericCode,
+            balance: v.statement.availableBalance,
+            alphabeticCode: v.currency.alphabeticCode,
+            caption: v.caption,
+            accountNumber: v.accountNumber,
+            accountId: v.accountId,
+            group: v.group.name,
+            minorUnit: v.currency.minorUnit,
+          };
+        });
+        console.log(assetsData.value);
+      }
+    });
+  }
+  //
   const res = await queryCurrenciesType()
   console.log(res)
   if (res.status == 200) {
@@ -531,9 +560,12 @@ async function handleContinue() {
     activeStep.value = 3;
     showStepThree.value = true;
     showContinueBtn.value = false; // 只隐藏继续按钮,不隐藏步骤二的选择框
+    
     // 设置第三步的值
     const selectedDepositMethod = depositMethods.value.find((e) => e.name == selectedOption2.value)
     if (selectedDepositMethod) {
+      // 请求address
+      depositSubmit(selectedDepositMethod)
       const paymentSystemCurrencies = selectedDepositMethod.paymentSystemCurrencies
       if (paymentSystemCurrencies && paymentSystemCurrencies.length > 0) {
         minimumDeposit.value = paymentSystemCurrencies[0].min.value
@@ -547,6 +579,23 @@ async function handleContinue() {
     }
   }
 }
+
+const depositSubmit = async (selectedDepositMethod:DepositMethodObject)=>{
+  const selectedAsset = assetsData.value.find((e)=>e.alphabeticCode == selectedOption1.value)
+  if(selectedAsset){
+    const depositRes = await makeDeposit(
+      selectedAsset.accountId, 
+      selectedDepositMethod.id,
+      selectedAsset.numericCode,
+      null, false, null, [{address_type:selectedDepositMethod.fields?.address_type?.type}]
+    )
+    console.log(depositRes)
+    if(depositRes.status === 200 && depositRes.data){
+      address.value = depositRes.data.data.action?.params?.address
+    }
+  }
+}
+
 const btnClick1 = (slug: string) => {
   firstIcon.value = ""
   selectedOption1.value = slug

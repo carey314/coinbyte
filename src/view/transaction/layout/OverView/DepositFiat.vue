@@ -168,7 +168,7 @@
                                 </div>
                                 <span>AUD</span>
                               </div>
-                              <div class="item-count">10,000.00</div>
+                              <div class="item-count">{{ receiveAmount }}</div>
                             </div>
                             <div class="card-divider"></div>
                             <div class="card-info">

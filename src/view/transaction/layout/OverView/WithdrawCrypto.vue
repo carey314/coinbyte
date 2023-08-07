@@ -25,14 +25,25 @@
                       <div v-if="activeStep >= 1" class="select" style="margin-top: 20px">
                         <el-select v-model="selectedOption1" placeholder="Select crypto" @change="handleContinue">
                           <el-option v-for="item in options1" :key="item.alphabeticCode" :label="item.alphabeticCode"
-                            :value="item.numericCode">
+                            :value="item.numericCode" style="height: 40px;">
                             <div style="
                                 display: flex;
+                                justify-content: space-between;
                                 align-items: center;
                                 gap: 8px;
+                                line-height: normal;
                               ">
-                              <el-avatar :size="26" :src="item.icon" style="margin-right: 8px" />
-                              {{ item.alphabeticCode }}
+                              <div style="display: flex;">
+                                <el-avatar :size="32" :src="item.icon" style="margin-right: 8px;align-self: center;" />
+                                <div style="display: flex;flex-direction: column;">
+                                  <div style="font-weight: bold;">{{ item.alphabeticCode }} </div>
+                                  <div>{{ item.currency }}</div>
+                                </div>
+                              </div>
+                              <div>
+                                <div>Total Balance </div>
+                                <div style="font-weight: bold;">{{ Number(item.balance).toFixed(4) + " " + item.alphabeticCode }}</div>
+                              </div>
                             </div>
                           </el-option>
                         </el-select>
@@ -696,6 +707,9 @@ async function handleSubmit() {
     } else {
 
     }
+  } else {
+    // 弹出接口错误（后面再补）
+    
   }
 }
 function handleContinue() {

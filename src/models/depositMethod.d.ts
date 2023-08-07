@@ -6,6 +6,12 @@ export interface DepositMethodObject {
     caption: string;
     pretend: boolean;
     provider: string;
+    fields: {
+        address_type:{
+            name:string;
+            type:string;
+        };
+    };
     tradersRoomCurrencies: [
         {
             min: {
