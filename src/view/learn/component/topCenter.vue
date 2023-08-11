@@ -292,7 +292,7 @@ const options = ref([
   // {
   //   value: "3",
   //   label: t('messages.learnTop.label_third'),
-  // },
+  // },view-more-mask
   // {
   //   value: "4",
   //   label: t('messages.learnTop.label_forth'),

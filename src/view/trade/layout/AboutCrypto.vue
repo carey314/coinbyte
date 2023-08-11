@@ -10,7 +10,7 @@
       ></div>
     </div>
     <div  class="view-more">
-      <div class="view-more-mask"></div>
+      <div class="view-more-mask" v-if="viewMore === false"></div>
       <div class="view-more-button" @click="toggleViewMore">View more</div>
     </div>
   </div>
@@ -186,7 +186,7 @@ onMounted(() => {
   if (content) {
     console.log(content.offsetHeight <= 509);
     if (content.offsetHeight <= 509) {
-      viewMore.value = true;
+      viewMore.value = false;
     }
   }
 });
