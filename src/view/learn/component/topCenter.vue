@@ -67,7 +67,7 @@
             </el-col>
           </el-row>
         </div>
-        <div v-if="activeName === '3'">
+        <!-- <div v-if="activeName === '3'">
           <el-row>
             <el-col :span="13">
               <div class="title">{{ $t('messages.learnTop.label_third') }}</div>
@@ -118,7 +118,7 @@
               </div>
             </el-col>
           </el-row>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="top-box" v-if="windowWidth <= 769">
@@ -195,7 +195,7 @@
             </el-col>
           </el-row>
         </div>
-        <div v-if="activeName === '3'">
+        <!-- <div v-if="activeName === '3'">
           <el-row>
             <el-col :span="24">
               <div class="title">{{ $t('messages.learnTop.label_third') }}</div>
@@ -246,7 +246,7 @@
               </div>
             </el-col>
           </el-row>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -289,14 +289,17 @@ const options = ref([
     value: "2",
     label: t('messages.learnTop.label_second'),
   },
-  {
-    value: "3",
-    label: t('messages.learnTop.label_third'),
-  },
-  {
-    value: "4",
-    label: t('messages.learnTop.label_forth'),
-  },
+  // {
+  //   value: "3",
+  //   label: t('messages.learnTop.label_third'),
+  // },
+  // {
+  //   value: "4",
+  //   label: t('messages.learnTop.label_forth'),
+  // },
+  
+
+  // 记得更换justify space-between
 ]);
 
 const firstCard = [
@@ -403,7 +406,9 @@ $fontSizeMin: 12px;
 :deep() {
   .el-radio-group {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
+    justify-content: flex-start;
+    gap: 20px;
   }
   .el-radio-button__inner {
     background: #313e4a;
