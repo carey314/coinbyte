@@ -12,7 +12,7 @@
                 <div class="message">{{ item.title }}</div>
               </div>
             </router-link>
-          </el-col>
+          </el-col>s
         </el-row>
       </div>
       <!-- <div class="center-part max1290">

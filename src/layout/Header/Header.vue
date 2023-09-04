@@ -376,12 +376,17 @@
             <img :src="top_notice" alt="" />
             <template #dropdown>
               <el-dropdown-menu class="notice-dropdown-menu">
-                <el-dropdown-item v-for="item in notices" @click="noticeDetail(item)" :key="item.id" class="notice-dropdown-item clearfloat">
+                <el-dropdown-item  v-if="userInfoStore.isLogin" v-for="item in notices" @click="noticeDetail(item)" :key="item.id" class="notice-dropdown-item clearfloat">
                   <div class="notice-msg">
                     <div class="notice-tip"></div>
                     {{ item.title }}
                     <div class="notice-time">{{ item.createTime }}</div>
                   </div>
+                  
+                </el-dropdown-item>
+                <el-dropdown-item v-else>
+                  <div><router-link to="/login" style="text-decoration: none;font-size: 12px;
+    color: #000000;">请登陆后查看</router-link></div>
                 </el-dropdown-item>
 
                 <div class="">
@@ -583,7 +588,7 @@ const noticeStore = noticeInfoStore()
 const {noticesList} = storeToRefs(noticeStore)
 const notices = ref<NoticeObject[]>([])
 onMounted(async ()=>{
-  if (userInfoStore.isLogin) {
+  if (!userInfoStore.isLogin) {
     const res = await getNotices()
     console.log("notices", res)
     if(res.status == 200){
@@ -1275,7 +1280,9 @@ $regular-font: HarmonyOS_Sans_Regular;
   --el-dropdown-menuItem-color: #01c19a;
   --el-dropdown-menuItem-hover-fill: #ffffff;
 }
-
+:deep(.el-divider--horizontal){
+  margin: 0 0 24px 0;
+}
 .user-dropdown-menu {
   text-align: center;
   // margin-left: 10%;
