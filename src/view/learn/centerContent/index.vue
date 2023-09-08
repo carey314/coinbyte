@@ -76,7 +76,7 @@
 import { ref, reactive, onUnmounted, onMounted } from "vue";
 
 import { useRoute } from "vue-router";
-import { getBlog } from '../../../api/blog';
+import { getBlog,getBlogs } from '../../../api/blog';
 import { Blog } from "../../../models/blog";
 
 import { ElMessage, type TabsPaneContext } from "element-plus";
