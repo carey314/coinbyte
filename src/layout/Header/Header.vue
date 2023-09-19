@@ -1378,7 +1378,8 @@ $regular-font: HarmonyOS_Sans_Regular;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
+  word-break: keep-all;
+  overflow-wrap: break-word;
   .notice-tip {
     width: 8px;
     height: 8px;
@@ -1402,7 +1403,8 @@ $regular-font: HarmonyOS_Sans_Regular;
     .notice-dropdown-item {
       width: 368px !important;
       padding: 10px;
-      word-break: break-word;
+      // word-break: keep-all;
+      // overflow-wrap: break-word;
     }
   }
 }

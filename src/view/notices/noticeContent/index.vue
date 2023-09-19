@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div style="position: absolute;bottom: 0;width: 100%">
+    <div>
       <Footer v-if="windowWidth > 769" />
       <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
     </div>
@@ -106,6 +106,7 @@ $fontSizeMin: 12px;
   max-width: 1290px;
   margin: auto;
   padding: 45px 130px 77px 130px;
+  min-height: calc(100vh - 165px);
 
   @media (max-width: 1440px) {
     padding: 45px 30px 37px 30px;

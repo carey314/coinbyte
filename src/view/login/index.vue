@@ -644,7 +644,7 @@ $fontSizeMin: 12px;
     .scan-box {
       background: #f1f1f1;
       border-radius: 0 8px 8px 0;
-      padding: 102.5px 42px 83.3px 42px;
+      padding: 102.5px 42px 83px 42px;
       @media (max-width: 810px) {
         padding: 111.5px 13px 74.3px 13px;
       }
