@@ -136,7 +136,13 @@ $fontSizeMin: 12px;
   background-color: #fff;
   padding: 46px 0;
   margin-top: 20px;
-
+  max-width: 1290px;
+  margin: auto;
+  @media (max-width: 1400px) {
+    & {
+      max-width: 940px;
+    }
+  }
   @media (max-width: 985px) {
     & {
       padding: 46px 30px;
@@ -149,7 +155,7 @@ $fontSizeMin: 12px;
     font-size: 16px !important;
     line-height: 19px;
     color: #060606;
-    width: 907px;
+    // width: 907px;
 
     @media (max-width: 985px) {
       & {

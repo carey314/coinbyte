@@ -32,6 +32,9 @@ import { ref, reactive, onMounted, onUnmounted } from "vue";
 import GetButton from "../../components/GetButton.vue";
 
 import part09_pic01 from "../../assets/home/part09_pic01.png";
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger)
 
 
 const windowWidth = ref(window.document.body.offsetWidth);
@@ -44,6 +47,29 @@ onUnmounted(() => {
 function resetWidth() {
   windowWidth.value = window.document.body.offsetWidth;
 }
+
+onMounted(async () => {
+  gsap.from(".ninth-part-left", {
+    scrollTrigger: {
+      trigger: ".ninth-part-left",
+      start: "top 50%", // 当触发元素的顶部到达视口中心时开始动画
+      end: "bottom bottom", // 当触发元素的底部离开视口底部时结束动画
+      toggleActions: "play none none reverse",
+    },
+      x: -200, // 动画的目标值
+      duration: 1.2, // 动画的持续时间
+  });
+  gsap.from(".ninth-part-right", {
+    scrollTrigger: {
+      trigger: ".ninth-part-right",
+      start: "top 50%", // 当触发元素的顶部到达视口中心时开始动画
+      end: "bottom bottom", // 当触发元素的底部离开视口底部时结束动画
+      toggleActions: "play none none reverse",
+    },
+      x: 200, // 动画的目标值
+      duration: 1.2, // 动画的持续时间
+  });
+})
 </script>
 
 <style scoped lang="scss">

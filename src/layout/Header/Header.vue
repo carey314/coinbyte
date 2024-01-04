@@ -281,7 +281,9 @@
             @mouseover="userShow"
             @mouseleave="userHide"
             class="right-dropdown-box"
-          >
+          >  this.$refs.navUser.clear()
+          const navUser = ref();
+          navuser.clear()
             <el-dropdown class="user-dropdown align-icon" ref="navUser">
               <router-link to="/user">
                 <img :src="top_bar_usercenter" alt="" />
@@ -513,7 +515,7 @@
                         font-size: 12px;
                         color: #000000;
                       "
-                      >请登陆后查看</router-link
+                      >Please review after login</router-link
                     >
                   </div>
                 </el-dropdown-item>

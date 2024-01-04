@@ -81,13 +81,7 @@
         </el-row>
       </div>
     </div>
-    <!-- <div style="width: 100%; height: 500px; background: pink; font-size: 30px">
-      <div v-for="(coin, index) in coinMarketCapData.data" :key="index">
-        <div v-if="coinMarketCapData.data.length > 0">
-          {{ coinMarketCapData.data[3].name }}
-        </div>
-      </div>
-    </div> -->
+
     <div class="homeContainer">
       <div class="part first-part" v-if="windowWidth > 768">
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick" style="color: #01c19a" :stretch="true">
@@ -514,18 +508,13 @@
 
               <el-table-column prop="chart" label="Chart" align="center">
                 <template #default="scope">
-                  <div
-                    style="
+                  <div style="
                       height: 40px;
                       width: 140px;
                       margin: 0 auto;
                       position: relative;
                       bottom: -14px;
-                    "
-                    :ref="(e) => setEchartRef(e, 1)"
-                    :rowId="scope.row.id"
-                    :id="'echart' + scope.row.id"
-                  ></div>
+                    " :ref="(e) => setEchartRef(e, 1)" :rowId="scope.row.id" :id="'echart' + scope.row.id"></div>
                 </template>
               </el-table-column>
 
@@ -606,18 +595,13 @@
 
               <el-table-column prop="chart" label="Chart" align="center">
                 <template #default="scope">
-                  <div
-                    style="
+                  <div style="
                       height: 40px;
                       width: 140px;
                       margin: 0 auto;
                       position: relative;
                       bottom: -14px;
-                    "
-                    :ref="(e) => setEchartRef(e, 2)"
-                    :rowId="scope.row.id"
-                    :id="'echart' + scope.row.id"
-                  ></div>
+                    " :ref="(e) => setEchartRef(e, 2)" :rowId="scope.row.id" :id="'echart' + scope.row.id"></div>
                 </template>
               </el-table-column>
 
@@ -668,18 +652,13 @@
 
               <el-table-column prop="chart" label="Chart" align="center">
                 <template #default="scope">
-                  <div
-                    style="
+                  <div style="
                       height: 40px;
                       width: 140px;
                       margin: 0 auto;
                       position: relative;
                       bottom: -14px;
-                    "
-                    :ref="(e) => setEchartRef(e, 3)"
-                    :rowId="scope.row.id"
-                    :id="'echart' + scope.row.id"
-                  ></div>
+                    " :ref="(e) => setEchartRef(e, 3)" :rowId="scope.row.id" :id="'echart' + scope.row.id"></div>
                 </template>
               </el-table-column>
 
@@ -730,18 +709,13 @@
 
               <el-table-column prop="chart" label="Chart" align="center">
                 <template #default="scope">
-                  <div
-                    style="
+                  <div style="
                       height: 40px;
                       width: 140px;
                       margin: 0 auto;
                       position: relative;
                       bottom: -14px;
-                    "
-                    :ref="(e) => setEchartRef(e, 4)"
-                    :rowId="scope.row.id"
-                    :id="'echart' + scope.row.id"
-                  ></div>
+                    " :ref="(e) => setEchartRef(e, 4)" :rowId="scope.row.id" :id="'echart' + scope.row.id"></div>
                 </template>
               </el-table-column>
 
@@ -762,7 +736,7 @@
 
       <div class="part second-part">
         <el-row v-if="windowWidth > 768" style="padding-top: 60px">
-          <el-col :span="12" :xs="0">
+          <el-col :span="12" :xs="0" class="second-part-left">
             <img :src="home_25" alt="" />
           </el-col>
           <el-col :span="11" :offset="1" :xs="20" class="second-part-right">
@@ -804,8 +778,8 @@
             </GetButton>
           </el-col>
         </el-row>
-        <el-row v-if="windowWidth <= 768">
-          <el-col :span="24" :xs="24" class="second-part-right">
+        <el-row v-if="windowWidth <= 768" class="right">
+          <el-col :span="24" :xs="24" >
             <div class="first-level-title">
               {{ $t("messages.home.second_title") }}
             </div>
@@ -847,7 +821,7 @@
       </div>
       <div class="part third-part">
         <el-row v-if="windowWidth > 768">
-          <el-col :span="11" :offset="1">
+          <el-col :span="11" :offset="1" class="third-part-left">
             <div class="first-level-title third-part-title">
               {{ $t("messages.home.third_title") }}
               <span>{{ $t("messages.home.third_titlespan") }}</span>
@@ -867,7 +841,7 @@
               <img :src="part03_b1" alt="" />
             </div>
           </el-col>
-          <el-col :span="9" :offset="2" class="third-part-img">
+          <el-col :span="9" :offset="2" class="third-part-img third-part-right">
             <img :src="part03_im1" alt="" />
           </el-col>
         </el-row>
@@ -897,8 +871,8 @@
 
       <div class="forth-part" v-if="windowWidth > 985">
         <img class="forth-img" :src="part04" alt="" />
-        <img class="forth-img-pc" :src="pc" alt="" />
-        <div class="forth-title max1290">
+        <img class="forth-img-pc forth-part-bottom" :src="pc" alt="" />
+        <div class="forth-title max1290 forth-part-top">
           <div>
             {{ $t("messages.home.forth_dynamic") }}<br />
             <span>{{ $t("messages.home.forth_multiple") }}</span>
@@ -965,7 +939,7 @@
             </div>
             <div class="card-item" style="visibility: hidden"></div>
           </div>
-          <GetButton type="success" :text="t('messages.home.sixth_btn')" style="
+          <GetButton type="success" class="sixth-part-top-btn" :text="t('messages.home.sixth_btn')" style="
               margin-top: 40px;
               box-shadow: 4px 4px 10px 0 rgba(146, 146, 146, 0.5);
             " />
@@ -995,7 +969,7 @@
           }}<span>{{ $t("messages.home.seventh_coin") }}</span>
         </div>
         <el-row class="seventh-part-list" type="flex" justify="space-between" :gutter="40">
-          <el-col :span="7" class="listItem">
+          <el-col :span="7" class="seventh-part-listItem">
             <div class="seventh-part-img">
               <img :src="part07_pic01" alt="" />
             </div>
@@ -1003,7 +977,7 @@
               {{ $t("messages.home.seventh_how") }}
             </div>
           </el-col>
-          <el-col :span="7" class="listItem">
+          <el-col :span="7" class="seventh-part-listItem">
             <div class="seventh-part-img">
               <img :src="part07_pic02" alt="" />
             </div>
@@ -1011,7 +985,7 @@
               {{ $t("messages.home.seventh_start") }}
             </div>
           </el-col>
-          <el-col :span="7" class="listItem">
+          <el-col :span="7" class="seventh-part-listItem">
             <div class="seventh-part-img">
               <img :src="part07_pic03" alt="" />
             </div>
@@ -1060,7 +1034,6 @@
           <span>{{ $t("messages.home.seventh_more") }} &gt;</span>
         </div>
       </div>
-      <!-- //eighth-part -->
       <faq></faq>
       <div class="bottom-part">
         <joinCrypto />
@@ -1134,14 +1107,17 @@ import { useUserInfoStore } from "../../store/user";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { watch } from "fs";
-
+// add animal
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger)
 
 const router = useRouter();
 
 const { t } = useI18n();
 
 const useTradeStore = tradeStore()
-const {currencySlug, currencyName, currencyIcon} = storeToRefs(useTradeStore)
+const { currencySlug, currencyName, currencyIcon } = storeToRefs(useTradeStore)
 // 货币类型\
 interface Coin {
   id: number;
@@ -1200,7 +1176,170 @@ onMounted(async () => {
     refreshData(2);
     refreshData(3);
     refreshData(4);
-  }, 60000 * 5)
+  }, 60000 * 5);
+
+ gsap.from(".banner-left", {
+    scrollTrigger: {
+      trigger: ".banner-left",
+      start: "top center", // 当触发元素的顶部到达视口中心时开始动画
+      end: "bottom bottom", // 当触发元素的底部离开视口底部时结束动画
+      toggleActions: "play none none reverse",
+    },
+      x: -200, // 动画的目标值
+      duration: 1.2, // 动画的持续时间
+  });
+  gsap.from(".banner-right", {
+    scrollTrigger: {
+      trigger: ".banner-right",
+      start: "top center", // 当触发元素的顶部到达视口中心时开始动画
+      end: "bottom bottom", // 当触发元素的底部离开视口底部时结束动画
+      toggleActions: "play none none reverse",
+    },
+      x: 200, // 动画的目标值
+      duration: 1.2, // 动画的持续时间
+  });
+  
+  gsap.from(".first-part", {
+    scrollTrigger: {
+      trigger: ".first-part",
+      toggleActions: "play none none reverse",
+    },
+      y: 200, // 动画的目标值
+      duration: 0.8, // 动画的持续时间
+  });
+
+  gsap.from(".second-part-left", {
+    scrollTrigger: {
+      trigger: ".second-part-left",
+      start: "top-=560",
+      end: "bottom bottom",
+      toggleActions: "play none none reverse",
+    },
+    autoAlpha: 0, // 从完全透明和不可见开始
+    x: -200, // 从左边200px的位置开始
+    ease: "power2.out", // 使用Power2缓动函数
+    duration: 1.5,
+  });
+
+  // 右边部分的动画
+  gsap.from(".second-part-right", {
+    scrollTrigger: {
+      trigger: ".second-part-right",
+      start: "top-=750",
+      end: "bottom bottom",
+      toggleActions: "play none none reverse",
+    },
+    autoAlpha: 0, // 从完全透明和不可见开始
+    y: 200, // 从右边200px的位置开始
+    ease: "power2.out", // 使用Power2缓动函数
+    duration: 1.5,
+  });
+ 
+  gsap.from(".third-part-left", {
+    scrollTrigger: {
+      trigger: ".third-part-left",
+      start: "top center",
+      end: "bottom bottom",
+      toggleActions: "play none none reverse",
+    },
+    autoAlpha: 0, // 从完全透明和不可见开始
+    y: 200, // 从下边200px的位置开始
+    ease: "power2.out", // 使用Power2缓动函数
+    duration: 1.5,
+  });
+
+  // 右边部分的动画
+  gsap.from(".third-part-right", {
+    scrollTrigger: {
+      trigger: ".third-part-right",
+      start: "top center",
+      end: "bottom",
+      toggleActions: "play none none reverse",
+    },
+    autoAlpha: 0, // 从完全透明和不可见开始
+    x: 200, // 从右边200px的位置开始
+    ease: "power2.out", // 使用Power2缓动函数
+    duration: 1.5,
+  });
+  
+  gsap.from(".forth-part-top", {
+    scrollTrigger: {
+      trigger: ".forth-part-top",
+      start: "top center", // 当触发元素的顶部到达视口中心时开始动画
+      end: "bottom bottom", // 当触发元素的底部离开视口底部时结束动画
+      toggleActions: "play none none reverse",
+    },
+    y: -100, // 动画的目标值
+    opacity: 0, // 从完全透明开始
+    scale: 0, // 从无到有
+    // rotation: 180, // 旋转180度
+    duration: 1.8, // 动画的持续时间
+  });
+  gsap.from(".forth-part-bottom", {
+    scrollTrigger: {
+      trigger: ".forth-part-bottom",
+      start: "top 90%", // 当触发元素的顶部到达视口中心时开始动画
+      end: "bottom bottom", // 当触发元素的底部离开视口底部时结束动画
+      toggleActions: "play none none reverse",
+    },
+    scale: 1.4, 
+    duration: 1, // 动画的持续时间
+  });
+  gsap.from(".fifth-part-card", {
+    scrollTrigger: {
+      trigger: ".fifth-part-card", // 修改这里
+      start: "top center",
+      end: "bottom bottom",
+      toggleActions: "play none none reverse",
+    },
+    autoAlpha: 0, // 从完全透明和不可见开始
+    ease: "power2.out", // 使用Power2缓动函数
+    duration: 1.5,
+  });
+  gsap.fromTo(".sixth-part-top", {
+    scale: 0.8, // 开始时的缩放比例
+    rotation: 0, // 开始时的旋转角度
+  }, {
+    scrollTrigger: {
+      trigger: ".sixth-part-top",
+      start: "top center",
+      end: "bottom bottom",
+      toggleActions: "play none none reverse",
+    },
+    scale: 1.2, // 结束时的缩放比例
+    rotation: 360, // 结束时的旋转角度
+    repeat: -1, // 无限重复动画
+    yoyo: true, // 在每次迭代结束时反向动画
+    ease: "power2.inOut", // 使用Power2缓动函数
+    duration: 2, // 动画的持续时间
+  });
+  gsap.to(".sixth-part-top-btn", {
+    scale: 1.1, // 缩放到 slightly larger
+    repeat: -1, // 无限重复动画
+    yoyo: true, // 在每次迭代结束时反向动画
+    duration: 0.5, // 每次缩放的持续时间
+    ease: "sine.inOut" // 使用 sine 缓动函数，为动画添加自然的加速和减速
+  });
+  
+  gsap.from(".seventh-part-listItem", {
+    scrollTrigger: {
+      trigger: ".seventh-part-listItem",
+      start: "top-=450", // 当元素顶部到达视口底部时开始动画
+      end: "bottom bottom", // 当元素底部离开视口顶部时结束动画
+      toggleActions: "play none reverse none", // 在滚动离开和滚动回来时反向播放动画
+      markers: false, // 设置为true可以在页面上看到触发点
+    },
+    opacity: 0, // 开始时的不透明度
+    y: 50, // 从50px的Y轴位置开始
+    scale: 0.95, // 开始时的缩放比例
+    duration: 1, // 动画持续时间
+    ease: "back.out(1.7)", // 使用back缓动效果，括号内的数字越大，回弹越大
+    stagger: {
+      amount: 0.3, // 整体动画的持续时间，用于计算每个元素的延迟
+      from: "start", // 从第一个元素开始逐个播放动画
+    }
+  });
+
 });
 
 const coinSymbolToName: {
