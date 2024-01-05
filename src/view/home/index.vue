@@ -903,7 +903,7 @@
         </div>
       </div>
 
-      <div class="part fifth-part">
+      <div class="part fifth-part" style="overflow: hidden;">
         <div class="first-level-title">
           {{ $t("messages.home.fifth_why") }}
           <span>{{ $t("messages.home.fifth_CoinByte") }}</span>?
@@ -913,7 +913,7 @@
         </div>
         <img :src="part05_b1" alt="" class="fifth-part-top-img" />
         <div class="fifth-part-card">
-          <div class="card-item" v-for="(item, index) in cardList" :key="index">
+          <div class="card-item fifth-card-item" v-for="(item, index) in cardList" :key="index">
             <img :src="item.src" alt="" />
             <div class="card-title">{{ item.title }}</div>
             <div class="card-desc">{{ item.desc }}</div>
@@ -932,7 +932,7 @@
             <span>{{ $t("messages.home.sixth_Premium") }}</span>{{ $t("messages.home.sixth_support") }}
           </div>
           <div class="sixth-part-card">
-            <div class="card-item" v-for="(item, index) in cardSupport" :key="index">
+            <div class="card-item six-card-item" v-for="(item, index) in cardSupport" :key="index">
               <img class="item-img" :src="item.src" alt="" />
               <div class="card-title">{{ item.title }}</div>
               <div class="card-desc">{{ item.desc }}</div>
@@ -1285,16 +1285,31 @@ onMounted(async () => {
     scale: 1.4, 
     duration: 1, // 动画的持续时间
   });
-  gsap.from(".fifth-part-card", {
+  gsap.from(".fifth-card-item", {
     scrollTrigger: {
-      trigger: ".fifth-part-card", // 修改这里
+      trigger: ".fifth-part-card",
+      start: "top center",
+      end: "bottom bottom",
+      toggleActions: "play none reverse none",
+    },
+    yPercent: -100, // 从上方100%的位置开始
+    autoAlpha: 0, // 开始时完全透明并且不占空间
+    duration: 1,
+    stagger: 0.2,
+    ease: "back.out(1.7)",
+  });
+  gsap.from(".six-card-item", {
+    scrollTrigger: {
+      trigger: ".sixth-part-card",
       start: "top center",
       end: "bottom bottom",
       toggleActions: "play none none reverse",
     },
-    autoAlpha: 0, // 从完全透明和不可见开始
-    ease: "power2.out", // 使用Power2缓动函数
-    duration: 1.5,
+    yPercent: -100, // 从上方100%的位置开始
+    autoAlpha: 0, // 开始时完全透明并且不占空间
+    duration: 1,
+    stagger: 0.2,
+    ease: "back.out(1.7)",
   });
   gsap.fromTo(".sixth-part-top", {
     scale: 0.8, // 开始时的缩放比例
@@ -1324,18 +1339,18 @@ onMounted(async () => {
   gsap.from(".seventh-part-listItem", {
     scrollTrigger: {
       trigger: ".seventh-part-listItem",
-      start: "top-=450", // 当元素顶部到达视口底部时开始动画
-      end: "bottom bottom", // 当元素底部离开视口顶部时结束动画
+      start: "top-=500", // 当元素顶部到达视口底部时开始动画
+      end: "bottom top", // 当元素底部离开视口顶部时结束动画
       toggleActions: "play none reverse none", // 在滚动离开和滚动回来时反向播放动画
       markers: false, // 设置为true可以在页面上看到触发点
     },
-    opacity: 0, // 开始时的不透明度
+    opacity: 0.9, // 开始时的不透明度
     y: 50, // 从50px的Y轴位置开始
     scale: 0.95, // 开始时的缩放比例
-    duration: 1, // 动画持续时间
-    ease: "back.out(1.7)", // 使用back缓动效果，括号内的数字越大，回弹越大
+    duration: 2, // 动画持续时间
+    ease: "back.out(2)", // 使用back缓动效果，括号内的数字越大，回弹越大
     stagger: {
-      amount: 0.3, // 整体动画的持续时间，用于计算每个元素的延迟
+      amount: 1, // 整体动画的持续时间，用于计算每个元素的延迟
       from: "start", // 从第一个元素开始逐个播放动画
     }
   });
