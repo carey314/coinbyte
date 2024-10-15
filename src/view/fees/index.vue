@@ -1,6 +1,6 @@
 <template>
   <div class="fees-page">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="top-part">
       <div class="top-part-box">
         <div class="top-part-title">{{ $t('messages.fees.fees') }}</div>
@@ -63,14 +63,14 @@
     <div class="bottom-part">
       <joinEmail style="margin-top: 60px" />
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from "vue";
-
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -85,6 +85,7 @@ import fees_icon03 from "../../assets/home/fees_icon03.png";
 
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+const uiStore = useUIStore()
 
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {

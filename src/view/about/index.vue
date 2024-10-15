@@ -1,6 +1,6 @@
 <template>
   <div class="about-page">
-    <Header />
+  <Header v-if="uiStore.showHeaderFooter" />
     <div class="top-part">
       <div class="back-center"><img :src="banner_bgk_lightgreen" /></div>
       <div class="back-left">
@@ -165,13 +165,14 @@
     <div style="background: #f8f8f8">
       <joinCrypto class="max-width: 1600px;" />
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -186,7 +187,7 @@ import aboutus_icon01 from "../../assets/home/aboutus_icon01.png";
 import aboutus_icon02 from "../../assets/home/aboutus_icon02.png";
 import aboutus_icon03 from "../../assets/home/aboutus_icon03.png";
 import aboutus_icon04 from "../../assets/home/aboutus_icon04.png";
-
+const uiStore = useUIStore()
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {
   window.addEventListener("resize", resetWidth);

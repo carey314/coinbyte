@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="center-box" v-if="windowWidth > 769">
       <div class="login-box">
         <el-form
@@ -236,13 +236,14 @@
         </div>
       </div>
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted } from "vue";
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -267,6 +268,7 @@ import type { FormInstance, FormRules } from "element-plus";
 
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+const uiStore = useUIStore()
 const rules = reactive<FormRules>({
   username: [
     { required: true, message: "Please input your username!", trigger: "blur" },

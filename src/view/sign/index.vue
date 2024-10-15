@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="sign-box">
       <div class="sign">
         <div class="sign-title">{{ $t("messages.sign.create") }}</div>
@@ -181,13 +181,14 @@
         </div>
       </div>
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, watchEffect } from "vue";
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -210,6 +211,7 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 const fingerprintStore = useFingerprintStore();
+const uiStore = useUIStore()
 
 const activeSign = ref("1");
 const number = ref("");

@@ -1,17 +1,17 @@
 <template>
   <div class="learn-center">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <topCenter />
     <middleCenter :filterBlogs="filterBlogs"/>
     <bottomCenter :filterBlogsBottom="filterBlogsBottom"/>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted } from "vue";
-
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import Footer from "../../layout/Footer/Footer.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
@@ -24,7 +24,7 @@ import { getBlogs } from "../../api/blog";
 import { Blog } from "../../models/blog";
 
 import { GetBlogs } from '../../models/blog';
-
+const uiStore = useUIStore()
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {
   window.addEventListener("resize", resetWidth);

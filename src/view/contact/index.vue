@@ -1,6 +1,6 @@
 <template>
   <div class="contact-page">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="top-part part">
       <!-- <img :src="contact_img" /> -->
       <div class="top-part-box">
@@ -70,13 +70,14 @@
         </el-col>
       </el-row>
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -85,7 +86,7 @@ import contact_img from "../../assets/home/contact.png";
 import contactus_icon01 from "../../assets/home/contactus_icon01.png";
 import contactus_icon02 from "../../assets/home/contactus_icon02.png";
 import contactus_icon03 from "../../assets/home/contactus_icon03.png";
-
+const uiStore = useUIStore()
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {
   window.addEventListener("resize", resetWidth);

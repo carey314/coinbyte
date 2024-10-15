@@ -1,6 +1,6 @@
 <template>
   <div class="wallet-page">
-    <Header></Header>
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="center-part">
       <el-scrollbar>
         <div class="scrollbar-flex-content">
@@ -42,13 +42,14 @@
       </div>
     </div>
 
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onBeforeMount, onMounted, computed, watch } from "vue";
+import { useUIStore } from '../../store/ui'
 import { windowWidth } from "../../components/WindowWidth"
 import Header from "../../layout/Header/Header.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -67,6 +68,7 @@ import { useRoute, useRouter } from "vue-router";
 
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+const uiStore = useUIStore()
 
 const activeName = ref<any>("first");
   const route = useRoute();

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="password-box">
       <div class="password">
         <div class="password-title">{{ $t('messages.forgot_password.update') }}</div>
@@ -48,13 +48,14 @@
         </div>
       </div>
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted } from "vue";
+import { useUIStore } from '../../../store/ui'
 import Header from "../../../layout/Header/Header.vue";
 import FooterMobile from "../../../layout/Footer/FooterMobile.vue";
 import Footer from "../../../layout/Footer/Footer.vue";
@@ -68,6 +69,7 @@ const {t} = useI18n()
 const password = ref("");
 const text = ref("Get Verification Code");
 const textContinue = ref("Update password");
+const uiStore = useUIStore()
 
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {

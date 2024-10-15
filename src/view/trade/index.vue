@@ -1,6 +1,6 @@
 <template>
   <div class="market-trade-page">
-    <Header></Header>
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="box-header">
       <div class="header-nav" style="color: #fff">
         <span>Home&nbsp; &gt;</span>&nbsp; <span>Bitcoin&nbsp; &gt;</span>&nbsp;
@@ -58,13 +58,14 @@
     <div class="bottom-part">
       <joinEmail />
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-else></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, computed, provide } from "vue";
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import Footer from "../../layout/Footer/Footer.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
@@ -89,6 +90,7 @@ import { tradeStore } from "../../store/trade";
 const useTradeStore = tradeStore()
 const {currencySlug, currencyName, currencyIcon} = storeToRefs(useTradeStore)
 
+const uiStore = useUIStore()
 const route = useRoute();
 
 const windowWidth = ref(window.document.body.offsetWidth);

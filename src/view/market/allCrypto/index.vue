@@ -1,6 +1,6 @@
 <template>
   <div class="allCrypto-page">
-    <Header></Header>
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="center-part">
       <div class="search-input" v-if="windowWidth > 769">
         <el-input v-model="search" class="w-50 m-2" size="large" placeholder="Search" :prefix-icon="Search" @input="debounceSearchBlurry" />
@@ -141,14 +141,14 @@
         </div>
       </el-scrollbar>
     </div>
-
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, onUnmounted, onMounted, computed } from "vue";
+import { useUIStore } from '../../../store/ui'
 import Header from "../../../layout/Header/Header.vue";
 import Footer from "../../../layout/Footer/Footer.vue";
 import FooterMobile from "../../../layout/Footer/FooterMobile.vue";
@@ -183,6 +183,7 @@ import { tradeStore } from "../../../store/trade";
 
 const useTradeStore = tradeStore()
 const router = useRouter();
+const uiStore = useUIStore()
 
 const loading = ref(false);
 

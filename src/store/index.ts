@@ -7,3 +7,4 @@ pinia.use(piniaPluginPersist)
 
 
 export default pinia
+export * from './ui'

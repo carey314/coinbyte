@@ -1,6 +1,6 @@
 <template>
   <div class="center-content">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="main-part">
       <div class="nav">
         <el-breadcrumb :separator-icon="ArrowRight">
@@ -25,14 +25,15 @@
       </div>
     </div>
     <div>
-      <Footer v-if="windowWidth > 769" />
-      <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, onUpdated } from "vue";
+import { useUIStore } from '../../store/ui'
 import { ArrowRight } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import Header from "../../layout/Header/Header.vue";
@@ -41,7 +42,7 @@ import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import { storeToRefs } from "pinia";
 import { noticeInfoStore } from "../../store/notice";
 import { NoticeObject } from "../../models/notice";
-
+const uiStore = useUIStore()
 const router = useRouter()
 const windowWidth = ref(window.document.body.offsetWidth);
 const noticeStore = noticeInfoStore()

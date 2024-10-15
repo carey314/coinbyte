@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 // import Home from '../view/home.vue';
-
+import { useUIStore } from '../store/ui'
 const routes: Array<RouteRecordRaw> = [
   // {
   //   path: '/',
@@ -327,5 +327,11 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+router.beforeEach((to, from, next) => {
+  const uiStore = useUIStore()
+  const hideHeaderFooter = to.query.type === 'hide'
+  uiStore.setShowHeaderFooter(!hideHeaderFooter)
+  next()
 })
 export default router;

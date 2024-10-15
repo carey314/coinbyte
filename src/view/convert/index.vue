@@ -1,6 +1,6 @@
 <template>
   <div class="convert-page">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="convert-content">
       <div class="top-part">
         <div class="top-part-box">
@@ -261,8 +261,8 @@
       </div>
     </div>
 
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
@@ -271,6 +271,7 @@ import _ from "lodash";
 import { ref, reactive, onMounted, onUnmounted, computed } from "vue";
 import type { Ref } from "vue";
 import { useI18n } from "vue-i18n"
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -292,7 +293,7 @@ import crypto_icon_usdc from "../../assets/home/crypto_icon_usdc.png";
 import crypto_buy from "../../assets/home/crypto_buy.png";
 import buy_info from "../../assets/home/buy_info.svg";
 import { useUserInfoStore } from "../../store/user";
-
+const uiStore = useUIStore()
 const { t } = useI18n();
 const windowWidth = ref(window.document.body.offsetWidth);
 const options = ref([

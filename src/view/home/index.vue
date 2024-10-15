@@ -1,6 +1,6 @@
 <template>
   <div class="homeBox">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="bannerContainer">
       <div class="bg-img">
         <el-row style="height: 100%" class="max1290">
@@ -1040,13 +1040,14 @@
       </div>
     </div>
 
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, watch as vueWatch } from "vue";
+import { useUIStore } from '../../store/ui'
 import Header from "../../layout/Header/Header.vue";
 import Footer from "../../layout/Footer/Footer.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
@@ -1115,7 +1116,7 @@ gsap.registerPlugin(ScrollTrigger)
 const router = useRouter();
 
 const { t } = useI18n();
-
+const uiStore = useUIStore()
 const useTradeStore = tradeStore()
 const { currencySlug, currencyName, currencyIcon } = storeToRefs(useTradeStore)
 // 货币类型\

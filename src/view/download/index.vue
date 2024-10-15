@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="download-box">
       <div class="download">
         <el-row v-if="windowWidth > 768">
@@ -47,8 +47,8 @@
         </el-row>
       </div>
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
@@ -62,7 +62,8 @@ import download_banner01 from "../../assets/home/download_banner01.png";
 import download_banner_app from "../../assets/home/download_banner_app.png";
 import download_banner_google from "../../assets/home/download_banner_google.png";
 import download_banner_code from "../../assets/home/download_banner_code.png";
-
+import { useUIStore } from '../../store/ui'
+const uiStore = useUIStore()
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {
   window.addEventListener("resize", resetWidth);

@@ -1,6 +1,6 @@
 <template>
   <div class="allCrypto-page">
-    <Header></Header>
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="center-part">
       <div class="search-input" v-if="windowWidth > 769">
         <el-input
@@ -222,14 +222,15 @@
       </el-scrollbar>
     </div>
 
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769"></FooterMobile>
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted, computed } from "vue";
 import Header from "../../../layout/Header/Header.vue";
+import { useUIStore } from '../../../store/ui'
 import Footer from "../../../layout/Footer/Footer.vue";
 import FooterMobile from "../../../layout/Footer/FooterMobile.vue";
 import { StarFilled, Search } from "@element-plus/icons-vue";
@@ -273,7 +274,7 @@ const handleTabClick = (route: string) => {
 
 
 const search = ref("");
-
+const uiStore = useUIStore()
 const tableLayout = ref("fixed");
 
 interface Coin {

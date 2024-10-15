@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="password-box">
       <div class="password">
         <div class="password-title">{{ $t('messages.forgot_password.password') }}</div>
@@ -37,13 +37,14 @@
         </div>
       </div>
     </div>
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted } from "vue";
+import { useUIStore } from '../../../store/ui'
 import Header from "../../../layout/Header/Header.vue";
 import FooterMobile from "../../../layout/Footer/FooterMobile.vue";
 import Footer from "../../../layout/Footer/Footer.vue";
@@ -51,6 +52,7 @@ import GetButton from "../../../components/GetButton.vue";
 
 import { useI18n } from 'vue-i18n'
 const {t} = useI18n()
+const uiStore = useUIStore()
 
 const password = ref("");
 const code = ref("");

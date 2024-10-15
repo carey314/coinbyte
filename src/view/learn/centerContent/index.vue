@@ -1,6 +1,6 @@
 <template>
   <div class="center-content">
-    <Header />
+    <Header v-if="uiStore.showHeaderFooter" />
     <div class="main-part">
       <div class="nav">
         <el-breadcrumb :separator-icon="ArrowRight">
@@ -67,13 +67,14 @@
       <CenterContent style="margin-top:-20px" />
     </div>
 
-    <Footer v-if="windowWidth > 769" />
-    <FooterMobile v-if="windowWidth <= 769" />
+    <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
+    <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onUnmounted, onMounted } from "vue";
+import { useUIStore } from '../../../store/ui'
 
 import { useRoute } from "vue-router";
 import { getBlog,getBlogs } from '../../../api/blog';
@@ -93,6 +94,7 @@ import downbar_icon09 from "../../../assets/home/downbar_icon09.svg";
 import share_icon from "../../../assets/home/share_icon.svg";
 import image1 from "../../../assets/home/image1.png";
 import image2 from "../../../assets/home/image2.png";
+const uiStore = useUIStore()
 
 const windowWidth = ref(window.document.body.offsetWidth);
 onMounted(() => {
