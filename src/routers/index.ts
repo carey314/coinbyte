@@ -328,10 +328,18 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+// 默认显示 header footer
+// router.beforeEach((to, from, next) => {
+//   const uiStore = useUIStore()
+//   const hideHeaderFooter = to.query.type === 'hide'
+//   uiStore.setShowHeaderFooter(!hideHeaderFooter)
+//   next()
+// })
+// 默认不显示 header footer
 router.beforeEach((to, from, next) => {
   const uiStore = useUIStore()
-  const hideHeaderFooter = to.query.type === 'hide'
-  uiStore.setShowHeaderFooter(!hideHeaderFooter)
+  const showHeaderFooter = to.query.type === 'show'
+  uiStore.setShowHeaderFooter(showHeaderFooter)
   next()
 })
 export default router;
