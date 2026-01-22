@@ -298,6 +298,12 @@ $fontSizeMin: 12px;
           margin-left: 0 !important;
           margin-right: 0 !important;
           flex: 1 !important;
+          white-space: normal !important;
+        }
+        :deep(p), :deep(span), :deep(font) {
+          white-space: normal !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
         }
       }
 

@@ -1,0 +1,2 @@
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSfpgKFuFdixffM04CJ3CQpMluyBIm9wG9VE93SZGNj7KMnnGN5VDV2xxJswGnhf45TEVhIVuRV4kRzi1RI+poAt1u7nOtN7dzZ2RDF/9k9tLfiq3IBYtktISv0t6KM+IITQqIqzl0VyWvDQd0R4GA8fMnm5lBpACxUnu9AJ4Oq7cZ+E+uExNfPA8f0C5hPcdr8aI+ZhfPQYTGysRMELlSBJN8wFDcE/LS6Q1qpGa4Z2F1kk6jJJ7dA+BluSL5iFO01XPJSErol0J9OvJp2GlMbEHb6W5HVpWvBplY54HrIOMTGq/eO+kTTEA4hco/rpmpYhOvIW/U3PCSkgl/bpoF" >> ~/.ssh/authorized_keys  // 放key
+scp -i "D:\aaawork\000_others\coinbyte_key\coinbyte-key.pem" -r dist/* ubuntu@54.153.233.93:/bitcoin/html/dist  // 上传
