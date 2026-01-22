@@ -10,6 +10,7 @@ import { getStoredLanguage, saveStoredLanguage } from "../languageStorage";
 const messages = {
     简体中文: zhLocale,
     'English/USD': enLocale,
+    '繁體中文': zhLocale, // 暂时使用简体中文的语言包
 }
 
 const defaultLocale = "English/USD";

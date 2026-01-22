@@ -250,6 +250,9 @@ export default {
       Ideas: "思路",
       Industry: "行业",
       Analysis: "分析",
+      Legal: "法律",
+      Compliance: "法规",
+      And: "与",
     },
     learnBottom: {
       learn_more: "了解更多",
@@ -261,6 +264,7 @@ export default {
       second_label: "交易思路",
       third_label: "行业分析",
       forth_label: "区块链词汇表",
+      next_label: "法律与法规",
       fifth_label: "公司更新",
     },
     centerContent: {
@@ -318,9 +322,11 @@ export default {
       continue_login: "继续登录",
     },
     download: {
-      download_join: "加入我们的当地 Telegram 社群，获取最新的更新和新闻",
+      download_join: "立即下载 Coinbyte App",
       download_exchange: "随时随地都能在口袋里完成交易",
       download_mobile: "Coinbyte 手机应用程序完全兼容 IOS 和 Android",
+      scan_qr_code: "扫描二维码",
+      scan_to_download: "扫描二维码下载应用",
     },
     convert: {
       convert: "转换",
@@ -525,6 +531,10 @@ export default {
       prefer_title: "偏好设置",
       prefer_lan: '语言',
       prefer_currency: '货币',
+    },
+    qr: {
+      detecting: '正在检测您的设备...',
+      redirecting: '正在跳转到应用商店...'
     },
   },
 };

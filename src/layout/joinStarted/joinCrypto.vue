@@ -6,7 +6,7 @@
             {{ $t('messages.join.discover') }}
           <span>{{ $t('messages.join.coinbyte') }}</span>
         </div>
-        <GetButton type="success" :text="$t('messages.join.start')" class="start-btn"></GetButton>
+        <GetButton type="success" :text="$t('messages.join.start')" href="https://coinbyte.com.au/zh-cn/register/" class="start-btn" target="_top"></GetButton>
       </div>
       <div class="ninth-part-right">
         <img :src="part09_pic01" alt="" />
@@ -18,7 +18,7 @@
           {{ $t('messages.join.discover') }}
           <span>{{ $t('messages.join.coinbyte') }}</span>
         </div>
-        <GetButton type="success" :text="$t('messages.join.start')" class="start-btn"></GetButton>
+        <GetButton type="success" :text="$t('messages.join.start')" href="https://coinbyte.com.au/zh-cn/register/" class="start-btn" target="_top"></GetButton>
       </div>
       <div class="ninth-part-right min-right">
         <img :src="part09_pic01" alt="" />

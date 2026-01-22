@@ -6,42 +6,14 @@
         <el-tab-pane :label="t('messages.learnList.first_label')" name="first">
           <div class="min-height">
             <ListCenter :index="0" :toGetBlogs="toGetBlogs"/>
-            <!-- <el-row :gutter="20">
-              <el-col :span="6" v-for="(item, index) in filterBlogs(0)" :key="index">
-                <a class="to-article"  :href="'/centerContent/' + item.id">
-                    <div class="content clearfloat">
-                      <div class="image">
-                        <img :src="item.icon" />
-                      </div>
-                      <div class="message">{{ item.subDesc || "----" }}</div>
-                    </div>
-                  </a>
-                </el-col>
-            </el-row> -->
-            <!-- <div style="display: flex; flex-wrap: wrap;">
-              
-            </div> -->
+
           </div>
         </el-tab-pane>
         <el-tab-pane :label="t('messages.learnList.second_label')" name="second">
           <div class="min-height">
             <div class="min-height">
               <ListCenter :index="1" :toGetBlogs="toGetBlogs"/>
-            <!-- <el-row :gutter="20">
-              <el-col :span="6" v-for="(item, index) in filterBlogs(1)" :key="index">
-                <a class="to-article"  :href="'/centerContent/' + item.id">
-                    <div class="content clearfloat">
-                      <div class="image">
-                        <img :src="item.icon" />
-                      </div>
-                      <div class="message">{{ item.subDesc || "----" }}</div>
-                    </div>
-                  </a>
-                </el-col>
-            </el-row> -->
-            <!-- <div style="display: flex; flex-wrap: wrap;">
-              
-            </div> -->
+
           </div>
           </div>
         </el-tab-pane>
@@ -70,41 +42,16 @@
         <el-tab-pane :label="t('messages.learnList.forth_label')" name="fourth">
           <div class="min-height"><div class="min-height">
             <ListCenter :index="3" :toGetBlogs="toGetBlogs"/>
-            <!-- <el-row :gutter="20">
-              <el-col :span="6" v-for="(item, index) in filterBlogs(3)" :key="index">
-                <a class="to-article"  :href="'/centerContent/' + item.id">
-                    <div class="content clearfloat">
-                      <div class="image">
-                        <img :src="item.icon" />
-                      </div>
-                      <div class="message">{{ item.subDesc || "----" }}</div>
-                    </div>
-                  </a>
-                </el-col>
-            </el-row> -->
-            <!-- <div style="display: flex; flex-wrap: wrap;">
-              
-            </div> -->
+          </div></div>
+        </el-tab-pane>
+        <el-tab-pane :label="t('messages.learnList.next_label')" name="next">
+          <div class="min-height"><div class="min-height">
+            <ListCenter :index="5" :toGetBlogs="toGetBlogs"/>
           </div></div>
         </el-tab-pane>
         <el-tab-pane :label="t('messages.learnList.fifth_label')" name="fifth">
           <div class="min-height"><div class="min-height">
             <ListCenter :index="4" :toGetBlogs="toGetBlogs"/>
-            <!-- <el-row :gutter="20">
-              <el-col :span="6" v-for="(item, index) in filterBlogs(4)" :key="index">
-                <a class="to-article"  :href="'/centerContent/' + item.id">
-                    <div class="content clearfloat">
-                      <div class="image">
-                        <img :src="item.icon" />
-                      </div>
-                      <div class="message">{{ item.subDesc || "----" }}</div>
-                    </div>
-                  </a>
-                </el-col>
-            </el-row> -->
-            <!-- <div style="display: flex; flex-wrap: wrap;">
-              
-            </div> -->
           </div></div>
         </el-tab-pane>
       </el-tabs>
@@ -128,6 +75,9 @@
             </el-tab-pane>
             <el-tab-pane :label="t('messages.learnList.forth_label')" name="fourth">
               <ListCenter :index="3" :toGetBlogs="toGetBlogs"/>
+            </el-tab-pane>
+            <el-tab-pane :label="t('messages.learnList.new_label')" name="new">
+              <ListCenter :index="5" :toGetBlogs="toGetBlogs"/>
             </el-tab-pane>
             <el-tab-pane :label="t('messages.learnList.fifth_label')" name="fifth">
               <ListCenter :index="4" :toGetBlogs="toGetBlogs"/>
@@ -183,6 +133,10 @@ onMounted(async () => {
     const res: any = await getBlogs();
     const data: Blog[] = res.data.content;
     blogs.value = data;
+    blogs.value?.forEach((item: Blog) => {
+    item.icon = item.icon.replace('http://adminapi.coinbyte.com.au:88', '')
+    item.banner = item.banner?.replace('http://adminapi.coinbyte.com.au:88', '')
+  })
     console.log(blogs.value)
   } catch(e) {
     console.log(e)
@@ -199,6 +153,10 @@ const toGetBlogs = async (
   try {
     const res: any = await getBlogs(getConfig);
     const content: Blog[] = res.data.content;
+    content.forEach((item: Blog) => {
+      item.icon = item.icon.replace('http://adminapi.coinbyte.com.au:88', '')
+      item.banner = item.banner?.replace('http://adminapi.coinbyte.com.au:88', '')
+    })
     const totalElements: number = res.data.totalElements;
     return {
       content,
@@ -209,7 +167,9 @@ const toGetBlogs = async (
   }
 }
 
-
+function navigateToArticle(id: number) {
+  window.parent.postMessage({ type: 'navigate', path: `/centerContent/${id}` }, '*');
+}
 </script>
 
 <style scoped lang="scss">

@@ -99,21 +99,21 @@
           </el-dropdown>
         </li>
         <li>
-          <a
-            href="/market-allCrypto"
+          <router-link
+            :to="`/${getCurrentLocalePrefix()}/market-allCrypto`"
             style="color: #fff; text-decoration: none"
-            >{{ $t("messages.header.market") }}</a
+            >{{ $t("messages.header.market") }}</router-link
           >
         </li>
         <li>
-          <a href="/trade/btc" style="color: #fff; text-decoration: none">{{
+          <router-link :to="`/${getCurrentLocalePrefix()}/trade/btc`" style="color: #fff; text-decoration: none">{{
             $t("messages.header.trade")
-          }}</a>
+          }}</router-link>
         </li>
         <li>
-          <a href="/learnCenter" style="color: #fff; text-decoration: none">{{
+          <router-link :to="`/${getCurrentLocalePrefix()}/learnCenter`" style="color: #fff; text-decoration: none">{{
             $t("messages.header.learn")
-          }}</a>
+          }}</router-link>
         </li>
       </ul>
     </div>
@@ -729,6 +729,7 @@ import { useI18n } from "vue-i18n";
 import { saveStoredLanguage } from "../../languageStorage";
 import { NoticeObject } from "../../models/notice";
 import { getNotices } from "../../api/notices";
+import { getCurrentLocalePrefix } from "../../utils/localeRouter";
 // t
 const i18n = useI18n();
 const { t } = useI18n({});

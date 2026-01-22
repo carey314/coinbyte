@@ -5,11 +5,52 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 
-defineProps<{ text: any }>();
+interface Props {
+  text: any;
+  href?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+}
+
+const props = defineProps<Props>();
 
 const emitChangeFn = defineEmits(["handler"]);
 const addClick = () => {
-  emitChangeFn("handler", "我是子传父的 button传home");
+  if (props.href) {
+    const target = props.target || '_blank';
+    
+    if (target === '_self') {
+      // Open in current window
+      window.location.href = props.href;
+    } else if (target === '_parent') {
+      // Open in parent frame
+      try {
+        if (window.parent && window.parent !== window.self) {
+          window.parent.location.href = props.href;
+        } else {
+          window.location.href = props.href;
+        }
+      } catch (e) {
+        window.location.href = props.href;
+      }
+    } else if (target === '_top') {
+      // Open in top-most frame
+      try {
+        if (window.top && window.top !== window.self) {
+          window.top.location.href = props.href;
+        } else {
+          window.location.href = props.href;
+        }
+      } catch (e) {
+        window.location.href = props.href;
+      }
+    } else {
+      // Default: open in new tab
+      window.open(props.href, '_blank');
+    }
+  } else {
+    // Emit event for parent component handling
+    emitChangeFn("handler", "我是子传父的 button传home");
+  }
 };
 
 onMounted(() => {

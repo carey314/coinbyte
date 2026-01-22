@@ -262,6 +262,9 @@ export default {
       Ideas: " Ideas",
       Industry: "Industry",
       Analysis: " Analysis",
+      Legal: "Legal ",
+      Compliance: "Compliance",
+      And: "and ",
     },
     learnBottom: {
       learn_more: "Learn More",
@@ -273,6 +276,7 @@ export default {
       second_label: "Trading Ideas",
       third_label: "Industry Analysis",
       forth_label: "Blockchain Glossary",
+      next_label: "Legal & Regulations",
       fifth_label: "Company Updates",
     },
     centerContent: {
@@ -331,10 +335,12 @@ export default {
     },
     download: {
       download_join:
-        "Join our local telegram community to get the latest updates and news",
+        "Download Coinbyte App Today",
       download_exchange: "Exchange in your pocket anywhere anytime",
       download_mobile:
         "Coinbyte mobile app is fully compatible with IOS and Android",
+      scan_qr_code: "Scan QR Code",
+      scan_to_download: "Scan the QR code to download the app",
     },
     convert: {
       convert: "Convert",
@@ -546,6 +552,10 @@ export default {
       prefer_title: "Preferences",
       prefer_lan: 'Language',
       prefer_currency: 'Currency',
+    },
+    qr: {
+      detecting: 'Detecting your device...',
+      redirecting: 'Redirecting to app store...'
     },
   },
 };

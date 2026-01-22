@@ -15,9 +15,17 @@
               {{ $t('messages.download.download_mobile') }}
             </div>
             <div class="download-link">
-              <div class="link"><img :src="download_banner_app" /></div>
-              <div class="link"><img :src="download_banner_google" /></div>
-              <div class="link"><img :src="download_banner_code" /></div>
+              <div class="link">
+                <a href="https://apps.apple.com/au/app/coinbyte-buy-bitcoin-crypto/id6739201223" target="_blank">
+                  <img :src="download_banner_app" />
+                </a>
+              </div>
+              <div class="link">
+                <a href="https://play.google.com/store/apps/details?id=au.com.coinbyte.app" target="_blank">
+                  <img :src="download_banner_google" />
+                </a>
+              </div>
+              <div class="link" @click="showQRCode = true"><img :src="download_banner_code" /></div>
             </div>
           </el-col>
           <el-col :span="10" :offset="4" class="download-right-img">
@@ -36,9 +44,17 @@
               {{ $t('messages.download.download_mobile') }}
             </div>
             <div class="download-link">
-              <div class="link"><img :src="download_banner_app" /></div>
-              <div class="link"><img :src="download_banner_google" /></div>
-              <div class="link"><img :src="download_banner_code" /></div>
+              <div class="link">
+                <a href="https://apps.apple.com/au/app/coinbyte-buy-bitcoin-crypto/id6739201223" target="_blank">
+                  <img :src="download_banner_app" />
+                </a>
+              </div>
+              <div class="link">
+                <a href="https://play.google.com/store/apps/details?id=au.com.coinbyte.app" target="_blank">
+                  <img :src="download_banner_google" />
+                </a>
+              </div>
+              <div class="link" @click="showQRCode = true"><img :src="download_banner_code" /></div>
             </div>
           </el-col>
           <el-col :span="24" class="download-right-img">
@@ -49,11 +65,24 @@
     </div>
     <Footer v-if="uiStore.showHeaderFooter && windowWidth > 769" />
     <FooterMobile v-if="uiStore.showHeaderFooter && windowWidth <= 769" />
+    
+    <!-- QR Code Popup Modal -->
+    <el-dialog
+      v-model="showQRCode"
+      :title="$t('messages.download.scan_qr_code')"
+      width="400px"
+      center
+    >
+      <div class="qr-code-container">
+        <img :src="qrCodeImage" alt="QR Code" />
+        <p class="qr-code-text">{{ $t('messages.download.scan_to_download') }}</p>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onUnmounted, onMounted } from "vue";
+import { ref, onUnmounted, onMounted } from "vue";
 import Header from "../../layout/Header/Header.vue";
 import FooterMobile from "../../layout/Footer/FooterMobile.vue";
 import Footer from "../../layout/Footer/Footer.vue";
@@ -62,9 +91,11 @@ import download_banner01 from "../../assets/home/download_banner01.png";
 import download_banner_app from "../../assets/home/download_banner_app.png";
 import download_banner_google from "../../assets/home/download_banner_google.png";
 import download_banner_code from "../../assets/home/download_banner_code.png";
+import qrCodeImage from "../../assets/image.png";
 import { useUIStore } from '../../store/ui'
 const uiStore = useUIStore()
 const windowWidth = ref(window.document.body.offsetWidth);
+const showQRCode = ref(false);
 onMounted(() => {
   window.addEventListener("resize", resetWidth);
 });
@@ -74,16 +105,6 @@ onUnmounted(() => {
 function resetWidth() {
   windowWidth.value = window.document.body.offsetWidth;
 }
-const options = ref([
-  {
-    value: "1",
-    label: "Mobile number",
-  },
-  {
-    value: "2",
-    label: "Email",
-  },
-]);
 </script>
 
 <style scoped lang="scss">
@@ -99,7 +120,7 @@ $fontSizeMinPro: 14px;
 $fontSizeMin: 12px;
 .download-box {
   display: flex;
-  min-height: calc(100vh - 394px);
+  min-height: 1000px;
   align-items: center;
   background: #1d262f;
   border-bottom: 1px solid #2e3945;
@@ -160,6 +181,24 @@ $fontSizeMin: 12px;
         margin-top: 50px;
       }
     }
+  }
+}
+
+.qr-code-container {
+  text-align: center;
+  padding: 20px;
+  
+  img {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .qr-code-text {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
   }
 }
 </style>

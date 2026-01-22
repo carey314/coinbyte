@@ -17,7 +17,7 @@ export default defineConfig({
         rewrite: path => path.replace(/^\/api/, '')
       },
       "/adminapi": {
-        target: "http://adminapi.coinbyte.com.au:88/api/",
+        target: "http://54.153.233.93:88/api/",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/adminapi/, ""),
       },

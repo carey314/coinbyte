@@ -15,7 +15,7 @@
             :placeholder="$t('messages.join.email')"
           >
             <template #append>
-              <GetButton type="success" :text="$t('messages.join.start')" class="start-btn" />
+              <GetButton type="success" :text="$t('messages.join.start')" target="_top" href="https://coinbyte.com.au/zh-cn/register/" class="start-btn" />
             </template>
           </el-input>
         </div>

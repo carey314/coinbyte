@@ -4,41 +4,18 @@
       <div class="center-part max1290">
         <el-row :gutter="20">
           <el-col :span="6" v-for="(item, index) in blogs?.content" :key="index">
-            <router-link :to="'/centerContent/' + item.id" style="text-decoration: none">
+            <a href="javascript:void(0)" @click="navigateToArticle(item.id)" style="text-decoration: none">
               <div class="content clearfloat">
                 <div class="image">
                   <img :src="item.icon" />
                 </div>
                 <div class="message">{{ item.title }}</div>
               </div>
-            </router-link>
-          </el-col>s
-        </el-row>
-      </div>
-      <!-- <div class="center-part max1290">
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(item, index) in secondCenter" :key="index">
-            <div class="content clearfloat">
-              <div class="image">
-                <img :src="item.image" />
-              </div>
-              <div class="message">{{ item.message }}</div>
-            </div>
+            </a>
           </el-col>
         </el-row>
       </div>
-      <div class="center-part max1290">
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(item, index) in thirdCenter" :key="index">
-            <div class="content clearfloat">
-              <div class="image">
-                <img :src="item.image" />
-              </div>
-              <div class="message">{{ item.message }}</div>
-            </div>
-          </el-col>
-        </el-row>
-      </div> -->
+
       <el-row>
         <el-col :span="24">
           <div class="example-pagination-block" style="width: 100%;">
@@ -51,42 +28,17 @@
       <div class="center-part">
         <el-row>
           <el-col :span="24" style="margin: auto" v-for="(item, index) in blogs?.content" :key="index">
-            <router-link :to="'/centerContent/' + item.id" style="text-decoration: none">
+            <a href="javascript:void(0)" @click="navigateToArticle(item.id)" style="text-decoration: none">
               <div class="content clearfloat">
                 <div class="image">
                   <img :src="item.icon" />
                 </div>
                 <div class="message">{{ item.title }}</div>
               </div>
-            </router-link>
+            </a>
           </el-col>
         </el-row>
       </div>
-      <!-- <div class="center-part">
-        <el-row>
-          <el-col :span="24" style="margin: auto" v-for="(item, index) in secondCenter" :key="index">
-            <div class="content clearfloat">
-              <div class="image">
-                <img :src="item.image" />
-              </div>
-              <div class="message">{{ item.message }}</div>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="center-part">
-        <el-row>
-          <el-col :span="24" style="margin: auto" v-for="(item, index) in thirdCenter" :key="index">
-            <div class="content clearfloat">
-              <div class="image">
-                <img :src="item.image" />
-              </div>
-              <div class="message">{{ item.message }}</div>
-            </div>
-          </el-col>
-        </el-row>
-      </div> -->
-
       <div class="example-pagination-block">
         <el-pagination background :pager-count="4" layout="prev, pager, next" :total="blogs?.totalElements"  @current-change="pageChange"/>
       </div>
@@ -218,10 +170,18 @@ const getBlogsValue = async (pageIndex: number) => {
     }
   );
   blogs.value = res;
+  blogs.value?.content.forEach((item: Blog) => {
+    item.icon = item.icon.replace('http://adminapi.coinbyte.com.au:88', '')
+    item.banner = item.banner?.replace('http://adminapi.coinbyte.com.au:88', '')
+  })
 }
 
 const pageChange = (value: number) => {
   getBlogsValue(value);
+}
+
+function navigateToArticle(id: number) {
+  window.parent.postMessage({ type: 'navigate', path: `/centerContent/${id}` }, '*');
 }
 
 </script>

@@ -13,6 +13,8 @@
         <GetButton
           type="success"
           :text="t('messages.fees.fees_btn')"
+          href="https://coinbyte.com.au/zh-cn/register/"
+          target="_top"
           style="margin-top: 40px"
         ></GetButton>
       </div>
@@ -112,7 +114,7 @@ const feeTable = [
     title: t('messages.fees.secondTitle'),
     tips: t('messages.fees.secondTips'),
     currency: "%",
-    number: "0.5",
+    number: "0",
     message: t('messages.fees.secondMessage'),
   },
   {
