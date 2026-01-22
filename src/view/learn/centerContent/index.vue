@@ -287,23 +287,31 @@ $fontSizeMin: 12px;
       font-size: 16px;
       color: #282828;
 
-      // 移动端覆盖内联样式的固定宽度
+      // 移动端通用覆盖 - 解决所有内联样式问题
       @media (max-width: 769px) {
-        :deep(div), :deep(main), :deep(article) {
-          width: 100% !important;
+        :deep(*) {
           max-width: 100% !important;
           min-width: 0 !important;
+          width: auto !important;
+          white-space: normal !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+          box-sizing: border-box !important;
+        }
+        :deep(div), :deep(main), :deep(article), :deep(section) {
           padding-left: 0 !important;
           padding-right: 0 !important;
           margin-left: 0 !important;
           margin-right: 0 !important;
           flex: 1 !important;
-          white-space: normal !important;
         }
-        :deep(p), :deep(span), :deep(font) {
-          white-space: normal !important;
-          word-wrap: break-word !important;
-          overflow-wrap: break-word !important;
+        :deep(img) {
+          width: 100% !important;
+          height: auto !important;
+        }
+        :deep(table) {
+          display: block !important;
+          overflow-x: auto !important;
         }
       }
 

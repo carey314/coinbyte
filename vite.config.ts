@@ -21,6 +21,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/adminapi/, ""),
       },
+      // "/file": {
+      //   target: "https://child.coinbyte.com.au",
+      //   changeOrigin: true,
+      //   secure: false,
+      // },
     },
   },
   resolve: {
