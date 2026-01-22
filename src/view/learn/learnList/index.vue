@@ -76,7 +76,7 @@
             <el-tab-pane :label="t('messages.learnList.forth_label')" name="fourth">
               <ListCenter :index="3" :toGetBlogs="toGetBlogs"/>
             </el-tab-pane>
-            <el-tab-pane :label="t('messages.learnList.new_label')" name="new">
+            <el-tab-pane :label="t('messages.learnList.next_label')" name="new">
               <ListCenter :index="5" :toGetBlogs="toGetBlogs"/>
             </el-tab-pane>
             <el-tab-pane :label="t('messages.learnList.fifth_label')" name="fifth">
@@ -174,7 +174,7 @@ function navigateToArticle(id: number) {
 
 <style scoped lang="scss">
 .scrollbar-flex-content {
-  display: flex;
+  width: 100%;
 }
 
 .center-part {
@@ -186,6 +186,12 @@ function navigateToArticle(id: number) {
   @media (max-width: 1440px) {
     & {
       padding: 25px 30px 135px 30px;
+    }
+  }
+  @media (max-width: 769px) {
+    & {
+      padding: 15px 15px 60px 15px;
+      min-height: auto;
     }
   }
 }
@@ -231,6 +237,35 @@ function navigateToArticle(id: number) {
   }
   .el-scrollbar__bar.is-horizontal>div{
     height: 0; //iPhone滑动样式高度
+  }
+
+  // 平板和移动端 tabs 横向滚动
+  @media (max-width: 1050px) {
+    .el-tabs__nav-wrap {
+      overflow: visible;
+    }
+    .el-tabs__nav-scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      // 隐藏滚动条
+      scrollbar-width: none; // Firefox
+      -ms-overflow-style: none; // IE/Edge
+      &::-webkit-scrollbar {
+        display: none; // Chrome/Safari
+      }
+    }
+    .el-tabs__nav {
+      white-space: nowrap;
+    }
+  }
+
+  // 移动端 tabs 样式优化
+  @media (max-width: 769px) {
+    .el-tabs__item {
+      font-size: 14px;
+      padding: 0 10px !important;
+    }
   }
 }
 

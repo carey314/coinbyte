@@ -245,6 +245,9 @@ $fontSizeMin: 12px;
       @media (max-width: 769px) {
         float: none;
         margin: auto;
+        width: 100%;
+        height: auto;
+        max-width: 280px;
       }
       img {
         width: 100%;

@@ -24,23 +24,23 @@
         </el-col>
       </el-row>
     </div>
-    <div class="center-box max1290" v-if="windowWidth <= 769">
+    <div class="center-box max1290 mobile-box" v-if="windowWidth <= 769">
       <div class="center-part">
-        <el-row>
-          <el-col :span="24" style="margin: auto" v-for="(item, index) in blogs?.content" :key="index">
+        <el-row :gutter="12">
+          <el-col :span="12" v-for="(item, index) in blogs?.content" :key="index">
             <a href="javascript:void(0)" @click="navigateToArticle(item.id)" style="text-decoration: none">
-              <div class="content clearfloat">
+              <div class="content clearfloat mobile-content">
                 <div class="image">
                   <img :src="item.icon" />
                 </div>
-                <div class="message">{{ item.title }}</div>
+                <div class="message mobile-message">{{ item.title }}</div>
               </div>
             </a>
           </el-col>
         </el-row>
       </div>
-      <div class="example-pagination-block">
-        <el-pagination background :pager-count="4" layout="prev, pager, next" :total="blogs?.totalElements"  @current-change="pageChange"/>
+      <div class="example-pagination-block mobile-pagination">
+        <el-pagination background :pager-count="4" layout="prev, pager, next" :total="blogs?.totalElements" :page-size="12" @current-change="pageChange"/>
       </div>
     </div>
   </div>
@@ -276,5 +276,26 @@ $fontSizeMin: 12px;
       --el-pagination-font-size: 16px;
     }
   }
+}
+
+// 移动端样式
+.mobile-box {
+  padding: 0 12px;
+}
+
+.mobile-content {
+  margin-top: 20px !important;
+}
+
+.mobile-message {
+  font-size: 14px !important;
+  line-height: 18px !important;
+  margin-top: 8px !important;
+}
+
+.mobile-pagination {
+  justify-content: center !important;
+  margin-top: 30px !important;
+  padding-bottom: 20px;
 }
 </style>

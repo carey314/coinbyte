@@ -176,6 +176,12 @@ $fontSizeMin: 12px;
   color: #000;
   line-height: 49px;
   font-weight: 600;
+
+  @media (max-width: 769px) {
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+  }
 }
 
 .content {
@@ -206,6 +212,10 @@ $fontSizeMin: 12px;
     padding: 45px 30px 37px 30px;
   }
 
+  @media (max-width: 769px) {
+    padding: 20px 16px 40px 16px;
+  }
+
   .nav {
     :deep() {
 
@@ -229,6 +239,11 @@ $fontSizeMin: 12px;
         color: #000;
         line-height: 49px;
         font-weight: 600;
+
+        @media (max-width: 769px) {
+          font-size: 24px;
+          line-height: 32px;
+        }
       }
 
       .info {
@@ -271,6 +286,20 @@ $fontSizeMin: 12px;
       font-family: "HarmonyOS Sans",Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
       font-size: 16px;
       color: #282828;
+
+      // 移动端覆盖内联样式的固定宽度
+      @media (max-width: 769px) {
+        :deep(div), :deep(main), :deep(article) {
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: 0 !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          flex: 1 !important;
+        }
+      }
 
       // Typography
       :deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
@@ -612,5 +641,9 @@ $fontSizeMin: 12px;
 
   @media (max-width: 1440px) {
     padding: 45px 30px 134px 30px;
+  }
+
+  @media (max-width: 769px) {
+    padding: 30px 16px 60px 16px;
   }
 }</style>
